@@ -34,6 +34,10 @@ class User
     #[ORM\Column]
     private ?\DateTimeImmutable $last_login = null;
 
+    #[ORM\ManyToOne(inversedBy: 'user')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Group $role = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,6 +123,18 @@ class User
     public function setLastLogin(\DateTimeImmutable $last_login): static
     {
         $this->last_login = $last_login;
+
+        return $this;
+    }
+
+    public function getRole(): ?Group
+    {
+        return $this->role;
+    }
+
+    public function setRole(?Group $role): static
+    {
+        $this->role = $role;
 
         return $this;
     }
