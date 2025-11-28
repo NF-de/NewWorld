@@ -14,10 +14,6 @@ class Log
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'logs')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?user $user_id = null;
-
-    #[ORM\ManyToOne(inversedBy: 'logs')]
     private ?entreprise $entreprise_id = null;
 
     #[ORM\Column(length: 255)]
@@ -33,21 +29,12 @@ class Log
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $table_concernee = null;
 
+    #[ORM\ManyToOne(inversedBy: 'logs')]
+    private ?user $user_id = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUserId(): ?user
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(?user $user_id): static
-    {
-        $this->user_id = $user_id;
-
-        return $this;
     }
 
     public function getEntrepriseId(): ?entreprise
@@ -106,6 +93,18 @@ class Log
     public function setTableConcernee(?string $table_concernee): static
     {
         $this->table_concernee = $table_concernee;
+
+        return $this;
+    }
+
+    public function getUserId(): ?user
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(?user $user_id): static
+    {
+        $this->user_id = $user_id;
 
         return $this;
     }

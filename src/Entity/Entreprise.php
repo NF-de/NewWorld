@@ -15,9 +15,6 @@ class Entreprise
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?user $user_id = null;
-
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
@@ -57,6 +54,9 @@ class Entreprise
     #[ORM\OneToMany(targetEntity: Log::class, mappedBy: 'entreprise_id')]
     private Collection $logs;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?user $user_id = null;
+
     public function __construct()
     {
         $this->logs = new ArrayCollection();
@@ -65,18 +65,6 @@ class Entreprise
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUserId(): ?user
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(?user $user_id): static
-    {
-        $this->user_id = $user_id;
-
-        return $this;
     }
 
     public function getNom(): ?string
@@ -237,6 +225,18 @@ class Entreprise
                 $log->setEntrepriseId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUserId(): ?user
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(?user $user_id): static
+    {
+        $this->user_id = $user_id;
 
         return $this;
     }
