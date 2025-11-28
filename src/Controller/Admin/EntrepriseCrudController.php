@@ -7,6 +7,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use App\Entity\User;
 
 class EntrepriseCrudController extends AbstractCrudController
 {
@@ -15,14 +17,22 @@ class EntrepriseCrudController extends AbstractCrudController
         return Entreprise::class;
     }
 
-    /*
+
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            TextField::new('nom'),
+            TextEditorField::new('email'),
+            AssociationField::new('user')
+                ->setLabel("Utilisateur")
+                ->setFormTypeOption(
+                    "choice_label",
+                    function (User $user) {
+                        return $user->getEmail();
+                    }
+                )
         ];
     }
-    */
+
 }
