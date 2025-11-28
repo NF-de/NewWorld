@@ -247,4 +247,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updated_at = new \DateTime();
     }
 
+
+    public function __tostring()
+    {
+        return $this->email;
+    }
 }
