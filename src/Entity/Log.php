@@ -14,7 +14,7 @@ class Log
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'logs')]
-    private ?entreprise $entreprise_id = null;
+    private ?entreprise $entreprise = null;
 
     #[ORM\Column(length: 255)]
     private ?string $operation = null;
@@ -30,7 +30,7 @@ class Log
     private ?string $table_concernee = null;
 
     #[ORM\ManyToOne(inversedBy: 'logs')]
-    private ?user $user_id = null;
+    private ?user $user = null;
 
     public function getId(): ?int
     {
@@ -39,12 +39,12 @@ class Log
 
     public function getEntrepriseId(): ?entreprise
     {
-        return $this->entreprise_id;
+        return $this->entreprise;
     }
 
-    public function setEntrepriseId(?entreprise $entreprise_id): static
+    public function setEntrepriseId(?entreprise $entreprise): static
     {
-        $this->entreprise_id = $entreprise_id;
+        $this->entreprise = $entreprise;
 
         return $this;
     }
@@ -99,12 +99,12 @@ class Log
 
     public function getUserId(): ?user
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?user $user_id): static
+    public function setUserId(?user $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
