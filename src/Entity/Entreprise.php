@@ -51,11 +51,12 @@ class Entreprise
     /**
      * @var Collection<int, Log>
      */
-    #[ORM\OneToMany(targetEntity: Log::class, mappedBy: 'entreprise_id')]
+    #[ORM\OneToMany(targetEntity: Log::class, mappedBy: 'entreprise')]
     private Collection $logs;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?user $user = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -211,7 +212,7 @@ class Entreprise
     {
         if (!$this->logs->contains($log)) {
             $this->logs->add($log);
-            $log->setEntrepriseId($this);
+            $log->setEntreprise($this);
         }
 
         return $this;
@@ -221,20 +222,20 @@ class Entreprise
     {
         if ($this->logs->removeElement($log)) {
             // set the owning side to null (unless already changed)
-            if ($log->getEntrepriseId() === $this) {
-                $log->setEntrepriseId(null);
+            if ($log->getEntreprise() === $this) {
+                $log->setEntreprise(null);
             }
         }
 
         return $this;
     }
 
-    public function getUserId(): ?user
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUserId(?user $user): static
+    public function setUser(User $user): static
     {
         $this->user = $user;
 
