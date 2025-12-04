@@ -1,6 +1,6 @@
-Site de gestion des producteurs de l'entreprise NewWorld
+# Site de gestion des producteurs de l'entreprise NewWorld
 
-Mise en situation : 
+# Mise en situation : 
 Vous intégrez, avec un binôme, le pôle Cœur SI qui a pour charge de maintenir le Système
 d’Information de la société NewWorld, mais également de développer ce SI pour qu’il soit
 toujours plus performant, plus innovant, plus efficace pour les personnels de 3.0.
@@ -10,7 +10,7 @@ l’enregistrement et la gestion des producteurs locaux partenaires.
 De nouveaux producteurs pourront par ailleurs faire une demande d’enregistrement et,
 après audit qualité réalisé par NewWorld, intégrer les fournisseurs officiels de la société.
 
-Cahier des charges : 
+# Cahier des charges :
 Les producteurs enregistrés doivent pouvoir accéder à leur fiche personnelle (nom de
 société ou nom propre, coordonnées postales, numéro SIRET, etc) afin de jouir de leurs
 droits de modification ou de suppression. En cas de suppression, la demande fait l’objet
