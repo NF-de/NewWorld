@@ -31,7 +31,7 @@ class UserFixture extends Fixture
 
             $user = new User();
             $user->setEmail($data['email']);
-            $user->setRoles([$data['roles'] ?? 'ROLE_USER']);
+            $user->setRoles(explode(',', $data['roles']));
             $user->setNom($data['nom']);
 
             // Hashage du mot de passe
@@ -40,13 +40,20 @@ class UserFixture extends Fixture
             );
 
             // Dates
-            $user->setCreatedAt(new \DateTime($data['created_at']));
-            $user->setUpdatedAt(new \DateTime($data['updated_at']));
+            $user->setCreatedAt(
+                !empty($data['created_at']) ? new \DateTime($data['created_at']) : new \DateTime()
+            );
+            $user->setUpdatedAt(
+                !empty($data['updated_at']) ? new \DateTime($data['updated_at']) : new \DateTime()
+            );
+
 
             // last_login nullable
             $user->setLastLogin($data['last_login'] ? new \DateTime($data['last_login']) : null);
 
             $manager->persist($user);
+                        $this->addReference('user_' . $data['id'], $user);
+
         }
 
         $manager->flush();
