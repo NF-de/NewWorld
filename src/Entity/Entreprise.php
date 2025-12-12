@@ -39,13 +39,13 @@ class Entreprise
     #[ORM\Column(length: 20)]
     private ?string $telephone = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTime $date_validation = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTime $date_archivage = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTime $date_mise_a_jour = null;
 
     /**
