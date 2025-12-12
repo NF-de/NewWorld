@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demande création entreprise{% endblock %}
+
+{% block body %}
+
+<h1>Formulaire Entreprise</h1>
+
+{{ form_start(form) }}
+{{ form_row(form.nom) }}
+{{ form_row(form.adresse) }}
+{{ form_row(form.ville) }}
+{{ form_row(form.code_postal) }}
+{{ form_row(form.siret) }}
+{{ form_row(form.email) }}
+{{ form_row(form.telephone) }}
+
+
+<button type="submit">Envoyer</button>
+{{ form_end(form) }}
+{% endblock %}

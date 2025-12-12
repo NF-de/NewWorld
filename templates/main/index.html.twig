@@ -7,13 +7,22 @@
 <div class="navbar">
     <a href="/" class="logo">NewWorld</a>
     <div class="nav-links">
-        {% if is_granted('ROLE_USER') %}
-        <a href="{{ path('app_logout') }}" class="logout">Se déconnecter</a>
-        {% else %}
+    {% if is_granted('ROLE_ENTREPRISE') %}
+        <a href="{{ path('app_formulaire_entreprise') }}" class="login">Formulaire Entreprise</a>
+    {% elseif is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('admin') }}" class="login">Dashboard</a>
+    {% else %}
         <a href="{{ path('app_register') }}" class="register">S'inscrire</a>
+    {% endif %}
+    
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('app_logout') }}" class="logout">Se déconnecter</a>
+    {% else %}
         <a href="{{ path('app_login') }}" class="login">Se connecter</a>
-        {% endif %}
-    </div>
+    {% endif %}
+</div>
+
 </div>
 
 <div class="hero">
