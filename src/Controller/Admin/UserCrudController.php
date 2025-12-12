@@ -4,14 +4,12 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+
 
 // class UserCrudController extends AbstractCrudController
 // {
@@ -58,6 +56,17 @@ class UserCrudController extends AbstractCrudController
             TextField::new('password')
                 ->setFormType(PasswordType::class)
                 ->onlyOnForms(),
+            ChoiceField::new('roles')
+                ->setLabel('Roles')
+                ->setChoices([
+                    'Admin' => 'ROLE_ADMIN',
+                    'Entreprise' => 'ROLE_ENTREPRISE',
+                    'Secrétaire' => 'ROLE_SECRETARY',
+                    'Directeur' => 'ROLE_DIRECTOR',
+                ])
+                ->allowMultipleChoices(),
+
+
         ];
     }
 
