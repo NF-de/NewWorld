@@ -241,4 +241,17 @@ class Entreprise
 
         return $this;
     }
+
+
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->date_mise_a_jour = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function onPreUpdate(): void
+    {
+        $this->date_mise_a_jour = new \DateTime();
+    }
 }
