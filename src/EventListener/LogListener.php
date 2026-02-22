@@ -1,13 +1,16 @@
 <?php
+
+namespace App\EventListener;
+
 use App\Entity\Log;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 
-class LoggerListener
+class LogListener
 {
     public function postPersist(Log $log, LifecycleEventArgs $args): void
     {
-        //...
+        // ...
     }
 
     public function preUpdate(Log $log, PreUpdateEventArgs $args): void
@@ -17,7 +20,7 @@ class LoggerListener
 
     public function postUpdate(Log $log, LifecycleEventArgs $args): void
     {
-        $em = $args->getEntityManager();
+        $em = $args->getObjectManager();
         $uow = $em->getUnitOfWork();
 
         $changeSet = $uow->getEntityChangeSet($log);
@@ -25,11 +28,11 @@ class LoggerListener
 
     public function preRemove(Log $log, LifecycleEventArgs $args): void
     {
-        //...
+        // ...
     }
 
-    public function postRemove(Log $order, LifecycleEventArgs $args): void
+    public function postRemove(Log $log, LifecycleEventArgs $args): void
     {
-        //...
+        // ...
     }
 }

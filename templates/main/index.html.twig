@@ -24,6 +24,13 @@
 </div>
 
 </div>
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }} mt-3">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
 
 <div class="hero">
     <h1>Bienvenue sur NewWorld</h1>
