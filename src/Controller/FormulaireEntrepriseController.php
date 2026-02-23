@@ -38,7 +38,7 @@ final class FormulaireEntrepriseController extends AbstractController
 
             $this->addFlash('warning', 'Votre demande d\'entreprise a déjà été effectuée.');
 
-            return $this->redirectToRoute('app_main');
+            return $this->redirectToRoute('app_dashboard');
         }
 
         // Créer le formulaire
@@ -55,7 +55,7 @@ final class FormulaireEntrepriseController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Votre demande d\'entreprise a été soumise avec succès.');
-            return $this->redirectToRoute('app_main');
+            return $this->redirectToRoute('app_dashboard');
         }
 
         return $this->render('formulaire_entreprise/index.html.twig', [

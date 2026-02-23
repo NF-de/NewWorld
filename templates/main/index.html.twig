@@ -8,7 +8,7 @@
     <a href="/" class="logo">NewWorld</a>
     <div class="nav-links">
     {% if is_granted('ROLE_ENTREPRISE') %}
-        <a href="{{ path('app_formulaire_entreprise') }}" class="login">Formulaire Entreprise</a>
+        <a href="{{ path('app_dashboard') }}" class="login">Dashboard Entreprise</a>
     {% elseif is_granted('ROLE_ADMIN') %}
         <a href="{{ path('admin') }}" class="login">Dashboard</a>
     {% else %}
