@@ -1,0 +1,66 @@
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    background: #f8f8f8;
+    cursor: pointer;
+    border-radius: 5px 5px 0 0;
+}
+
+.tab-button.active {
+    background: #fff;
+    border-bottom: 1px solid #fff;
+    font-weight: bold;
+}
+
+.tab-pane {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 0 5px 5px 5px;
+    background: #fff;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Badges */
+.badge-warning {
+    background: #ffc107;
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+.badge-success {
+    background: #28a745;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+/* Footer boutons */
+.dashboard-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.dashboard-footer .btn {
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.btn-danger { background: #dc3545; }
+.btn-primary { background: #007bff; }
+.btn-secondary { background: #6c757d; }
