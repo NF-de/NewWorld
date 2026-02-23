@@ -25,30 +25,24 @@ class AuditLogListener
 
         $user = $this->security->getUser();
 
-
-        // 2. Trouver l'entreprise liée à l'utilisateur
-        // Puisque User n'a pas de méthode getEntreprise(), on la cherche via le Repository
-        $entreprise = $em->getRepository(Entreprise::class)->findOneBy(['user' => $user]);
-
-        // 3. Entités créées (INSERT)
+        // 1. Entités créées (INSERT)
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            $this->createLog($em, $uow, $entity, 'CREATE', $user, $entreprise);
+            $this->createLog($em, $uow, $entity, 'CREATE', $user);
         }
 
-        // 4. Entités modifiées (UPDATE)
+        // 2. Entités modifiées (UPDATE)
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
-            $this->createLog($em, $uow, $entity, 'UPDATE', $user, $entreprise);
+            $this->createLog($em, $uow, $entity, 'UPDATE', $user);
         }
 
-        // 5. Entités supprimées (DELETE)
+        // 3. Entités supprimées (DELETE)
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            $this->createLog($em, $uow, $entity, 'DELETE', $user, $entreprise);
+            $this->createLog($em, $uow, $entity, 'DELETE', $user);
         }
     }
 
-    private function createLog($em, $uow, $entity, string $operation, User $user, ?Entreprise $entreprise): void
+    private function createLog($em, $uow, $entity, string $operation, User $user): void
     {
-        // Règle d'or : Ne jamais logger un Log
         if ($entity instanceof Log) {
             return;
         }
@@ -56,23 +50,23 @@ class AuditLogListener
         $log = new Log();
         $log->setOperation($operation);
 
-        // Nom de l'entité (ex: "Entreprise", "User", "Produit"...)
-        // $className = (new \ReflectionClass($entity))->getShortName();
-        // $log->setTableConcernee($className);
+        // Nom de l'entité (ex: "Entreprise", "User", ...)
+        $className = (new \ReflectionClass($entity))->getShortName();
+        $log->setTableConcernee($className);
 
         // Récupération de l'ID pour avoir un message plus précis
-        // $entityId = method_exists($entity, 'getId') && $entity->getId() !== null
-        //     ? $entity->getId()
-        //     : 'N/A';
+        $entityId = method_exists($entity, 'getId') && $entity->getId() !== null
+            ? $entity->getId()
+            : 'N/A';
 
-        // $log->setMessage(sprintf("L'action %s a été effectuée sur %s (ID: %s)", $operation, $className, $entityId));
+        $log->setMessage(sprintf("L'action %s a été effectuée sur %s (ID: %s)", $operation, $className, $entityId));
         $log->setCreatedAt(new \DateTime());
         $log->setUser($user);
-        $log->setMessage("message de test");
 
-        // if ($entreprise) {
-        //     $log->setEntreprise($entreprise);
-        // }
+        $entreprise = $user->getEntreprise();
+        if ($entreprise) {
+            $log->setEntreprise($entreprise);
+        }
 
         // Dire à Doctrine d'ajouter ce Log à la transaction SQL en cours
         $em->persist($log);

@@ -54,7 +54,7 @@ class Entreprise
     #[ORM\OneToMany(targetEntity: Log::class, mappedBy: 'entreprise')]
     private Collection $logs;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'entreprise', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

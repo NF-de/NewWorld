@@ -58,6 +58,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Log::class, mappedBy: 'user')]
     private Collection $logs;
 
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Entreprise::class)]
+    private ?Entreprise $entreprise = null;
+
     public function __construct()
     {
         $this->logs = new ArrayCollection();
@@ -251,5 +254,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __tostring()
     {
         return $this->email;
+    }
+
+    public function getEntreprise(): ?Entreprise
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?Entreprise $entreprise): static
+    {
+        // On s'assure que l'entreprise pointe aussi vers cet utilisateur
+        if ($entreprise !== null && $entreprise->getUser() !== $this) {
+            $entreprise->setUser($this);
+        }
+
+        $this->entreprise = $entreprise;
+
+        return $this;
     }
 }
