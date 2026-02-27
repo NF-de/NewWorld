@@ -9,6 +9,8 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 #[AsDoctrineListener(event: Events::onFlush)]
 class AuditLogListener
@@ -18,27 +20,35 @@ class AuditLogListener
     ) {
     }
 
-    public function onFlush(OnFlushEventArgs $args): void
+    public function onFlush(OnFlushEventArgs $args): ?Response
     {
         $em = $args->getObjectManager();
         $uow = $em->getUnitOfWork();
 
         $user = $this->security->getUser();
 
-        // 1. Entités créées (INSERT)
-        foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            $this->createLog($em, $uow, $entity, 'CREATE', $user);
+        if (!$user) {
+            return new RedirectResponse($this->generateUrl('app_login'));
         }
 
-        // 2. Entités modifiées (UPDATE)
-        foreach ($uow->getScheduledEntityUpdates() as $entity) {
-            $this->createLog($em, $uow, $entity, 'UPDATE', $user);
+        if ($user) {
+            // 1. Entités créées (INSERT)
+            foreach ($uow->getScheduledEntityInsertions() as $entity) {
+                $this->createLog($em, $uow, $entity, 'CREATE', $user);
+            }
+
+            // 2. Entités modifiées (UPDATE)
+            foreach ($uow->getScheduledEntityUpdates() as $entity) {
+                $this->createLog($em, $uow, $entity, 'UPDATE', $user);
+            }
+
+            // 3. Entités supprimées (DELETE)
+            foreach ($uow->getScheduledEntityDeletions() as $entity) {
+                $this->createLog($em, $uow, $entity, 'DELETE', $user);
+            }
         }
 
-        // 3. Entités supprimées (DELETE)
-        foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            $this->createLog($em, $uow, $entity, 'DELETE', $user);
-        }
+        return null;
     }
 
     private function createLog($em, $uow, $entity, string $operation, User $user): void

@@ -1,107 +1,114 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Dashboard
+{% endblock %}
 
 {% block body %}
-<link href="{{ asset('styles/dashboard.css') }}" rel="stylesheet">
+	<link href="{{ asset('styles/dashboard.css') }}" rel="stylesheet">
 
-<div class="dashboard-container">
-    <h2>Dashboard de {{ user.nom }} {{ user.prenom }}</h2>
+	<div class="dashboard-container">
+		<h2>Dashboard de
+			{{ user.nom }}
+			{{ user.prenom }}</h2>
 
-    <!-- Onglets -->
-    <div class="tabs">
-        <button class="tab-button active" onclick="openTab('utilisateur')">Utilisateur</button>
+		<!-- Onglets -->
+		<div class="tabs">
+			<button class="tab-button active" onclick="openTab('utilisateur')">Utilisateur</button>
 
-        {% if entreprise %}
-            <button class="tab-button" onclick="openTab('entreprise')">Entreprise</button>
-        {% endif %}
-    </div>
+			{% if entreprise %}
+				<button class="tab-button" onclick="openTab('entreprise')">Entreprise</button>
+			{% endif %}
+		</div>
 
-    <!-- Contenu des onglets -->
-    <div class="tab-content">
-        <!-- Onglet Utilisateur -->
-        <div id="utilisateur" class="tab-pane active">
-            <h4>Infos utilisateur</h4>
-            <form method="post" action="{{ path('app_dashboard_update_user') }}">
-                <div>
-                    <label>Nom :</label>
-                    <input type="text" name="nom" value="{{ user.nom }}" required>
-                </div>
-                <div>
-                    <label>Prénom :</label>
-                    <input type="text" name="prenom" value="{{ user.prenom }}" required>
-                </div>
-                <div>
-                    <label>Email :</label>
-                    <input type="email" name="email" value="{{ user.email }}" required>
-                </div>
-                <button type="submit" class="btn btn-success mt-2">Enregistrer</button>
-            </form>
-        </div>
+		<!-- Contenu des onglets -->
+		<div
+			class="tab-content">
+			<!-- Onglet Utilisateur -->
+			<div id="utilisateur" class="tab-pane active">
+				<h4>Infos utilisateur</h4>
+				<form method="post" action="{{ path('app_dashboard_update_user') }}">
+					<div>
+						<label>Nom :</label>
+						<input type="text" name="nom" value="{{ user.nom }}" required>
+					</div>
+					<div>
+						<label>Prénom :</label>
+						<input type="text" name="prenom" value="{{ user.prenom }}" required>
+					</div>
+					<div>
+						<label>Email :</label>
+						<input type="email" name="email" value="{{ user.email }}" required>
+					</div>
+					<button type="submit" class="btn btn-success mt-2">Enregistrer</button>
+				</form>
+			</div>
 
-        <!-- Onglet Entreprise -->
-        {% if entreprise %}
-            <div id="entreprise" class="tab-pane">
-                <h4>Infos entreprise</h4>
-                <form method="post" action="{{ path('app_dashboard_update_entreprise') }}">
-                    <div>
-                        <label>Nom entreprise :</label>
-                        <input type="text" name="nom" value="{{ entreprise.nom }}" required>
-                    </div>
-                    <div>
-                        <label>Email :</label>
-                        <input type="email" name="email" value="{{ entreprise.email }}">
-                    </div>
-                    <div>
-                        <label>Numéro de téléphone :</label>
-                        <input type="text" name="telephone" value="{{ entreprise.telephone }}">
-                    </div>
-                    <div>
-                        <label>Adresse :</label>
-                        <input type="text" name="adresse" value="{{ entreprise.adresse }}">
-                    </div>
-                    <div>
-                        <label>Ville :</label>
-                        <input type="text" name="ville" value="{{ entreprise.ville }}">
-                    </div>
-                    <div>
-                        <label>Code postal :</label>
-                        <input type="text" name="codePostal" value="{{ entreprise.codePostal }}">
-                    </div>
-                    <div>
-                        <label>Numéro SIRET :</label>
-                        <input type="text" name="siret" value="{{ entreprise.siret }}">
-                    </div>
-                    <button type="submit" class="btn btn-success mt-2">Enregistrer</button>
-                </form>
-            </div>
-        {% endif %}
-    </div>
+			<!-- Onglet Entreprise -->
+			{% if entreprise %}
+				<div id="entreprise" class="tab-pane">
+					<h4>Infos entreprise</h4>
+					<form method="post" action="{{ path('app_dashboard_update_entreprise') }}">
+						<div>
+							<label>Nom entreprise :</label>
+							<input type="text" name="nom" value="{{ entreprise.nom }}" required>
+						</div>
+						<div>
+							<label>Email :</label>
+							<input type="email" name="email" value="{{ entreprise.email }}">
+						</div>
+						<div>
+							<label>Numéro de téléphone :</label>
+							<input type="text" name="telephone" value="{{ entreprise.telephone }}">
+						</div>
+						<div>
+							<label>Adresse :</label>
+							<input type="text" name="adresse" value="{{ entreprise.adresse }}">
+						</div>
+						<div>
+							<label>Ville :</label>
+							<input type="text" name="ville" value="{{ entreprise.ville }}">
+						</div>
+						<div>
+							<label>Code postal :</label>
+							<input type="text" name="codePostal" value="{{ entreprise.codePostal }}">
+						</div>
+						<div>
+							<label>Numéro SIRET :</label>
+							<input type="text" name="siret" value="{{ entreprise.siret }}">
+						</div>
+						<button type="submit" class="btn btn-success mt-2">Enregistrer</button>
+					</form>
+				</div>
+			{% endif %}
+		</div>
 
-    <!-- Footer -->
-    <div class="dashboard-footer mt-3">
-        <a href="{{ path('app_logout') }}" class="btn btn-danger">Déconnexion</a>
-        <div>
-            {% if not entreprise %}
-                <a href="{{ path('app_formulaire_entreprise') }}" class="btn btn-primary">Formulaire Entreprise</a>
-            {% endif %}
-            <a href="{{ path('app_main') }}" class="btn btn-secondary">Archivage</a>
-        </div>
-    </div>
-</div>
+		<!-- Footer -->
+		<div class="dashboard-footer mt-3">
+			<a href="{{ path('app_logout') }}" class="btn btn-danger">Déconnexion</a>
+			<div>
+				{% if not entreprise %}
+					<a href="{{ path('app_formulaire_entreprise') }}" class="btn btn-primary">Formulaire Entreprise</a>
+				{% endif %}
+				{% if  entreprise %}
 
-<!-- JS simple pour gérer les onglets -->
-<script>
-function openTab(tabId) {
-    document.querySelectorAll('.tab-pane').forEach(pane => {
-        pane.classList.remove('active');
-    });
-    document.querySelectorAll('.tab-button').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    document.getElementById(tabId).classList.add('active');
-    document.querySelector(`[onclick="openTab('${tabId}')"]`).classList.add('active');
+					<a href="{{ path('app_archivage') }}" class="btn btn-secondary">Archivage</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<!-- JS simple pour gérer les onglets -->
+	<script>
+		function openTab(tabId) {
+document.querySelectorAll('.tab-pane').forEach(pane => {
+pane.classList.remove('active');
+});
+document.querySelectorAll('.tab-button').forEach(btn => {
+btn.classList.remove('active');
+});
+document.getElementById(tabId).classList.add('active');
+document.querySelector (`[onclick="openTab('${tabId}')"]`).classList.add('active');
 }
-</script>
+	</script>
 
 {% endblock %}
