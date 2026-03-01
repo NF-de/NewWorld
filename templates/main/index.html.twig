@@ -9,7 +9,7 @@
     <div class="nav-links">
     {% if is_granted('ROLE_ENTREPRISE') %}
         <a href="{{ path('app_dashboard') }}" class="login">Dashboard Entreprise</a>
-    {% elseif is_granted('ROLE_ADMIN') %}
+    {% elseif is_granted('ROLE_ADMIN') or is_granted('ROLE_SECRETAIRE') %}
         <a href="{{ path('admin') }}" class="login">Dashboard</a>
     {% else %}
         <a href="{{ path('app_register') }}" class="register">S'inscrire</a>

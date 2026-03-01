@@ -10,9 +10,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+
 
 class LogCrudController extends AbstractCrudController
 {
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityPermission('ROLE_ADMIN');
+    }
+
     public static function getEntityFqcn(): string
     {
         return Log::class;

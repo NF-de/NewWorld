@@ -9,7 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 
 // class UserCrudController extends AbstractCrudController
 // {
@@ -42,6 +43,11 @@ class UserCrudController extends AbstractCrudController
         $this->passwordHasher = $passwordHasher;
     }
 
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->setPermission(Action::DELETE, 'ROLE_ADMIN');
+    }
     public static function getEntityFqcn(): string
     {
         return User::class;
@@ -61,8 +67,8 @@ class UserCrudController extends AbstractCrudController
                 ->setChoices([
                     'Admin' => 'ROLE_ADMIN',
                     'Entreprise' => 'ROLE_ENTREPRISE',
-                    'Secrétaire' => 'ROLE_SECRETARY',
-                    'Directeur' => 'ROLE_DIRECTOR',
+                    'Secrétaire' => 'ROLE_SECRETAIRE',
+                    'Directeur' => 'ROLE_ADMIN',
                 ])
                 ->allowMultipleChoices(),
 

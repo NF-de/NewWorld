@@ -9,9 +9,16 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class EntrepriseCrudController extends AbstractCrudController
 {
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityPermission('ROLE_ADMIN');
+    }
+
     public static function getEntityFqcn(): string
     {
         return Entreprise::class;
