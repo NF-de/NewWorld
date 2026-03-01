@@ -9,7 +9,6 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 #[AsDoctrineListener(event: Events::onFlush)]
@@ -20,16 +19,12 @@ class AuditLogListener
     ) {
     }
 
-    public function onFlush(OnFlushEventArgs $args): ?Response
+    public function onFlush(OnFlushEventArgs $args): void
     {
         $em = $args->getObjectManager();
         $uow = $em->getUnitOfWork();
 
         $user = $this->security->getUser();
-
-        if (!$user) {
-            return new RedirectResponse($this->generateUrl('app_login'));
-        }
 
         if ($user) {
             // 1. Entités créées (INSERT)
@@ -48,7 +43,6 @@ class AuditLogListener
             }
         }
 
-        return null;
     }
 
     private function createLog($em, $uow, $entity, string $operation, User $user): void
@@ -83,4 +77,5 @@ class AuditLogListener
         $classMetadata = $em->getClassMetadata(Log::class);
         $uow->computeChangeSet($classMetadata, $log);
     }
+
 }

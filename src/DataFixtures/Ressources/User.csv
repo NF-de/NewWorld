@@ -2,4 +2,7 @@ id,email,roles,password,nom,created_at,updated_at,last_login
 1,utilisateur1@example.com,ROLE_ENTREPRISE,azerty123,Patrick,2025-11-28 10:00:00,2025-11-28 10:00:00,
 2,utilisateur2@example.com,ROLE_ENTREPRISE,azerty123,Pierre,2025-11-28 10:00:00,2025-11-28 10:00:00,
 3,utilisateur3@example.com,ROLE_ENTREPRISE,azerty123,Michelle,2025-11-28 10:00:00,2025-11-28 10:00:00,
-4,admin@gmail.com,ROLE_ADMIN,azerty123,Jean,2025-11-28 10:00:00,2025-11-28 10:00:00,
+4,claude@example.com,ROLE_DIRECTOR,azerty123,Claude,2025-11-28 10:00:00,2025-11-28 10:00:00,
+5,claudette@example.com,ROLE_DIRECTOR,azerty123,Claudine,2025-11-28 10:00:00,2025-11-28 10:00:00,
+6,stephanie@example.com,ROLE_SECRETARY,azerty123,Stéphanie,2025-11-28 10:00:00,2025-11-28 10:00:00,
+7,admin@gmail.com,ROLE_ADMIN,azerty123,Jean,2025-11-28 10:00:00,2025-11-28 10:00:00,
