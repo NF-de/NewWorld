@@ -3,37 +3,42 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+<link href="{{ asset('styles/login.css') }}" type="text/css" rel="stylesheet" />
 
-        
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-            </div>
-        {% endif %}
+<h1>Connexion</h1>
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+<form method="post">
 
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
+    {% if error %}
+    <p style="color: red;">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+    </p>
+    {% endif %}
 
-            <div class="checkbox mb-3">
-                <input type="checkbox" name="_remember_me" id="_remember_me">
-                <label for="_remember_me">Remember me</label>
-            </div>
-        #}
+    {% if app.user %}
+    <p>
+        Vous êtes connecté en tant que {{ app.user.userIdentifier }},
+        <a href="{{ path('app_logout') }}">Se déconnecter</a>
+    </p>
+    {% endif %}
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-    </form>
+    <input type="email" value="{{ last_username }}" name="_username" id="username" placeholder="Email"
+        autocomplete="email" required autofocus>
+
+    <input type="password" name="_password" id="password" placeholder="Mot de passe" autocomplete="current-password"
+        required>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    <button type="submit">
+        Se connecter
+    </button>
+
+</form>
+
+<p>
+    Pas encore de compte ?
+    <a href="/register">Créer un compte</a>
+</p>
+
 {% endblock %}
