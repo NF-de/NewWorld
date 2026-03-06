@@ -1,27 +1,39 @@
+/* Onglets attachés au contenu */
+body {
+    font-family: 'Merriweather', serif;
+}
+
 .tabs {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 0;
+    margin-bottom: 0;
 }
 
 .tab-button {
     padding: 10px 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #acacac;
+    border-bottom: none;
     background: #f8f8f8;
     cursor: pointer;
     border-radius: 5px 5px 0 0;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    background: #cecece;
 }
 
 .tab-button.active {
-    background: #fff;
-    border-bottom: 1px solid #fff;
+    background: #dddddd;
     font-weight: bold;
+    border-bottom: 1px solid #acacac;
 }
 
+/* Contenu onglets */
 .tab-pane {
     display: none;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #acacac;
     border-radius: 0 5px 5px 5px;
     background: #fff;
 }
@@ -47,20 +59,108 @@
     font-size: 0.85em;
 }
 
-/* Footer boutons */
+/* Footer dashboard */
 .dashboard-footer {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
+/* Boutons footer */
 .dashboard-footer .btn {
-    padding: 8px 15px;
+    padding: 10px 18px;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 25px;  /* arrondi moderne */
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+}
+
+/* Couleurs des boutons */
+.btn-danger {
+    background: #e74c3c; /* rouge vif pour déconnexion */
     color: #fff;
 }
 
-.btn-danger { background: #dc3545; }
-.btn-primary { background: #007bff; }
-.btn-secondary { background: #6c757d; }
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+.btn-primary {
+    background: #3498db; /* bleu pour formulaire entreprise */
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+}
+
+.btn-secondary {
+    background: #95a5a6; /* gris pour archivage */
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background: #7f8c8d;
+}
+
+/* Formulaires onglets */
+.tab-pane form div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.tab-pane form label {
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.tab-pane form input {
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.tab-pane form input:focus {
+    outline: none;
+    border-color: #000;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.08);
+}
+/* Bouton Enregistrer dans les formulaires */
+.tab-pane form button[type="submit"] {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.tab-pane form button[type="submit"]:hover {
+    background-color: #333;
+}
+/* Responsive */
+@media (max-width: 768px) {
+    .tabs {
+        flex-direction: column;
+    }
+
+    .dashboard-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-footer .btn {
+        width: 100%;
+    }
+}
