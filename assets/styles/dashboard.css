@@ -28,6 +28,21 @@ body {
     color: #2e570f;
 }
 
+.badge.warning {
+    background-color: #e1de8c;
+    color: #56570f;
+}
+
+.badge.danger {
+    background-color: #e18c8c;
+    color: #570f0f;
+}
+
+.badge.inactive {
+    background-color: #bdbdbd;
+    color: #393939;
+}
+
 .tabs {
     display: flex;
     gap: 0;
