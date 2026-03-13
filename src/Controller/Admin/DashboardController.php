@@ -12,18 +12,32 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\User;
 use App\Entity\Entreprise;
 use App\Entity\Log;
+use Doctrine\ORM\EntityManagerInterface;
 
 #[IsGranted('ROLE_SECRETAIRE')]
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
+    private EntityManagerInterface $entityManager;
+
+    // 1. On injecte l'EntityManager pour pouvoir faire des requêtes
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
     public function index(): Response
     {
-        
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'DashboardController',
-        ]);
+        // 2. On prépare les données
+        $stats = [
+            'users' => $this->entityManager->getRepository(User::class)->count([]),
+            'entreprises' => $this->entityManager->getRepository(Entreprise::class)->count([]),
+            'entreprises_valides' => $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'valide']),
+        ];
 
+        // 3. ON ENVOIE LA VARIABLE AU TEMPLATE
+        return $this->render('admin/index.html.twig', [
+            'stats' => $stats,
+        ]);
     }
 
     public function configureDashboard(): Dashboard
@@ -35,15 +49,28 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('User', 'fas fa-circle-user', User::class);
+        yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
 
-        // Seulement pour ADMIN
+        // Section Gestion
+        yield MenuItem::section('Gestion Utilisateurs');
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
+
+        // Section Administration (avec vérification de rôle)
         if ($this->isGranted('ROLE_ADMIN')) {
-            yield MenuItem::linkToCrud('Entreprise', 'fas fa-building', Entreprise::class);
-            yield MenuItem::linkToCrud('Log', 'fas fa-file', Log::class);
+            yield MenuItem::section('Administration système');
+
+            // Un sous-menu pour regrouper Entreprises et Logs
+            yield MenuItem::linkToCrud('Entreprises', 'fas fa-building', Entreprise::class);
+            yield MenuItem::linkToCrud('Logs système', 'fas fa-file-alt', Log::class);
+
+
+            yield MenuItem::section('Maintenance');
+            yield MenuItem::linkToRoute('Vider le Cache', 'fas fa-broom', 'app_clear_cache');
         }
+
+        // Section Liens Externes
+        yield MenuItem::section(); // Ligne de séparation
+        yield MenuItem::linkToLogout('Déconnexion', 'fas fa-sign-out-alt');
     }
 
 }

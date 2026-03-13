@@ -10,6 +10,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
 class EntrepriseCrudController extends AbstractCrudController
 {
@@ -40,14 +44,6 @@ class EntrepriseCrudController extends AbstractCrudController
             TextField::new('ville'),
             IntegerField::new('code_postal'),
             IntegerField::new('siret'),
-            ChoiceField::new('status')
-                ->setLabel('Status')
-                ->setChoices([
-                    'Non Validé' => 'non_valide',
-                    'Validé' => 'valide',
-                    'Pré avis' => 'pre_avis',
-                    'Archivé' => 'archive',
-                ]),
             TextField::new('email'),
             IntegerField::new('telephone'),
             //TextEditorField::new('email'),
@@ -59,7 +55,73 @@ class EntrepriseCrudController extends AbstractCrudController
                         return $user->getEmail();
                     }
                 )
+
         ];
     }
 
+    public function configureActions(Actions $actions): Actions
+    {
+        $actionPreavis = Action::new('faire_preavis', 'Lancer le Préavis', 'fa fa-bell')
+            ->linkToRoute('app_archivage_newworld', function ($entity) {
+                return ['id' => $entity->getId()];
+            })
+
+            ->displayIf(static function ($entity) {
+                $dateValidation = $entity->getDateValidation();
+
+                // Si pas de date, on n'affiche rien
+                if (!$dateValidation) {
+                    return false;
+                }
+
+                $aujourdhui = new \DateTimeImmutable('today');
+                $anneeEnCours = (int) $aujourdhui->format('Y');
+
+                // On crée deux fenêtres de tir : 
+                // 1. Celle de l'année dernière (ex: 01/12/2025 -> 01/06/2026)
+                // 2. Celle de cette année (ex: 01/12/2026 -> 01/06/2027)
+    
+                // Fenêtre 1 (Année précédente)
+                $debut1 = (clone $dateValidation)->setDate($anneeEnCours - 1, (int) $dateValidation->format('m'), (int) $dateValidation->format('d'));
+                $fin1 = (clone $debut1)->modify('+6 months');
+
+                // Fenêtre 2 (Année en cours)
+                $debut2 = (clone $dateValidation)->setDate($anneeEnCours, (int) $dateValidation->format('m'), (int) $dateValidation->format('d'));
+                $fin2 = (clone $debut2)->modify('+6 months');
+
+                // Vérification
+                $estDansFenetre1 = ($aujourdhui >= $debut1 && $aujourdhui <= $fin1);
+                $estDansFenetre2 = ($aujourdhui >= $debut2 && $aujourdhui <= $fin2);
+
+                return $estDansFenetre1 || $estDansFenetre2;
+            });
+        $valider = Action::new('valider', 'Valider', 'fa fa-check')
+            ->linkToCrudAction('changeStatusToValide')
+            ->displayIf(static function ($entity) {
+                return $entity->getStatus() === 'non_valide';
+            });
+        return $actions
+            ->add(Crud::PAGE_INDEX, $actionPreavis)
+            ->add(Crud::PAGE_DETAIL, $actionPreavis)
+
+            ->add(Crud::PAGE_INDEX, $valider)
+            ->add(Crud::PAGE_DETAIL, $valider);
+    }
+
+    public function changeStatusToValide(AdminContext $context, AdminUrlGenerator $adminUrlGenerator)
+    {
+        $entreprise = $context->getEntity()->getInstance();
+
+        // On change le statut
+        $entreprise->setStatus('valide');
+
+        // On sauvegarde
+        $this->container->get('doctrine')->getManager()->flush();
+
+        // Notification flash
+        $this->addFlash('success', 'Statut mis à jour : Validé');
+
+        // On recharge la page
+        return $this->redirect($adminUrlGenerator->setController(self::class)->setAction(Action::INDEX)->generateUrl());
+    }
 }

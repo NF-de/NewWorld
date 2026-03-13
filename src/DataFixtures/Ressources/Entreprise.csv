@@ -1,4 +1,4 @@
 user_id,nom,adresse,ville,code_postal,siret,status,email,telephone,date_validation,date_archivage,date_mise_a_jour
-1,Acme Inc,123 Rue Exemple,Paris,75001,12345678901234,active,entreprise1@gmail.com,0123456789,2025-01-01,,2025-12-05
-2,Globex Corp,456 Avenue Exemple,Lyon,69001,23456789012345,active,entreprise2@gmail.com,0123456790,2025-01-02,,2025-12-05
-3,Initech,789 Boulevard Exemple,Marseille,13001,34567890123456,active,entreprise3@gmail.com,0123456791,2025-01-03,,2025-12-05
+1,Acme Inc,123 Rue Exemple,Paris,75001,12345678901234,valide,entreprise1@gmail.com,0123456789,2025-01-01,,2025-12-05
+2,Globex Corp,456 Avenue Exemple,Lyon,69001,23456789012345,valide,entreprise2@gmail.com,0123456790,2025-01-02,,2025-12-05
+3,Initech,789 Boulevard Exemple,Marseille,13001,34567890123456,valide,entreprise3@gmail.com,0123456791,2025-01-03,,2025-12-05

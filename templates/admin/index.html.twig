@@ -1,3 +1,53 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
 {% block content_title %}Admin Dashboard{% endblock %}
+
+{% block main %}
+    <style>
+        .stat-card { border-radius: 10px; transition: transform 0.2s; }
+        .stat-card:hover { transform: translateY(-5px); }
+        .icon-bg { font-size: 2rem; opacity: 0.3; position: absolute; right: 15px; bottom: 10px; }
+    </style>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white stat-card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <h5 class="card-title text-uppercase small">Total Utilisateurs</h5>
+                    <p class="display-4 font-weight-bold mb-0">{{ stats.users }}</p>
+                    <i class="fas fa-users icon-bg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-success text-white stat-card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <h5 class="card-title text-uppercase small">Entreprises Validées</h5>
+                    <p class="display-4 font-weight-bold mb-0">{{ stats.entreprises_valides }}</p>
+                    <i class="fas fa-check-circle icon-bg"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-info text-white stat-card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <h5 class="card-title text-uppercase small">Taux de Validation</h5>
+                    {% set ratio = stats.entreprises > 0 ? (stats.entreprises_valides / stats.entreprises * 100)|round : 0 %}
+                    <p class="display-4 font-weight-bold mb-0">{{ ratio }}%</p>
+                    <i class="fas fa-chart-pie icon-bg"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <div class="alert alert-light border shadow-sm">
+                <h4><i class="fas fa-bullhorn text-warning"></i> Bonjour, {{ app.user.nom|default('Secrétaire') }} !</h4>
+                <p class="mb-0 text-muted">Aujourd'hui, nous sommes le {{ "now"|date("d/m/Y") }}.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
