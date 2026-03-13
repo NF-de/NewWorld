@@ -10,10 +10,10 @@ use DateTime;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class CheckArchivageController extends AbstractController
+final class CheckArchivageNewWorldController extends AbstractController
 {
     //#[IsGranted('ROLE_ADMIN')]
-    #[Route('/check_archivage', name: 'app_check_archivage')]
+    #[Route('/check_archivage_newworld', name: 'app_check_archivage_newworld')]
     public function index(EntityManagerInterface $em): Response
     {
 
@@ -34,9 +34,9 @@ final class CheckArchivageController extends AbstractController
         if ($entreprises) {
             foreach ($entreprises as $entreprise) {
                 $currentTime = new DateTime();
-                $timeToCompare = $entreprise->getDateArchivage()->modify('+2 months');
+                $timeToCompare = $entreprise->getDateValidation()->modify('+1 years');
 
-                if ($timeToCompare <= $currentTime && $entreprise->getStatus() == "pre_avis_entreprise") {
+                if ($timeToCompare <= $currentTime && $entreprise->getStatus() == "pre_avis_newWorld") {
                     $entreprise->setStatus('archive');
                     $entreprise->setDateArchivage($currentTime);
                     $em->flush();

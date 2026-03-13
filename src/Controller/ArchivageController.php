@@ -22,8 +22,8 @@ final class ArchivageController extends AbstractController
 
         $entreprise = $user->getEntreprise();
         if ($entreprise) {
-            if ($entreprise->getStatus() != "pre_avis" || $entreprise->getStatus() != "archive") {
-                $entreprise->setStatus("pre_avis");
+            if ($entreprise->getStatus() != "pre_avis_entreprise" || $entreprise->getStatus() != "archive") {
+                $entreprise->setStatus("pre_avis_entreprise");
                 $entreprise->setDateArchivage(new \DateTime());
                 $em->flush();
             }
