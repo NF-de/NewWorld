@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 // class UserCrudController extends AbstractCrudController
 // {
 //     public static function getEntityFqcn(): string
@@ -53,15 +53,21 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setPageTitle(Crud::PAGE_INDEX, 'Liste des utilisateurs')
+            ->setPageTitle(Crud::PAGE_NEW, 'Créer un nouvel utilisateur')
+            // Affiche le nom/prénom de l'utilisateur dynamiquement
+            ->setPageTitle(Crud::PAGE_EDIT, 'Modifier l’utilisateur');
+    }
+
     public function configureFields(string $pageName): iterable
     {
         return [
             TextField::new('nom'),
             TextField::new('prenom'),
             TextField::new('email'),
-            TextField::new('password')
-                ->setFormType(PasswordType::class)
-                ->onlyOnForms(),
             ChoiceField::new('roles')
                 ->setLabel('Roles')
                 ->setChoices([

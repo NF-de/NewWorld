@@ -254,4 +254,5 @@ class Entreprise
     {
         $this->date_mise_a_jour = new \DateTime();
     }
+    
 }

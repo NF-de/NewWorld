@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -18,7 +19,7 @@ class DashboardController extends AbstractDashboardController
 {
     public function index(): Response
     {
-
+        
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'DashboardController',
         ]);
@@ -28,18 +29,20 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('NewWorld');
+            ->setTitle('NewWorld Admin')
+            ->setFaviconPath('assets/images/tractor.svg');
     }
 
     public function configureMenuItems(): iterable
     {
+        
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('User', 'fas fa-list', User::class);
+        yield MenuItem::linkToCrud('User', 'fas fa-circle-user', User::class);
 
         // Seulement pour ADMIN
         if ($this->isGranted('ROLE_ADMIN')) {
-            yield MenuItem::linkToCrud('Entreprise', 'fas fa-list', Entreprise::class);
-            yield MenuItem::linkToCrud('Log', 'fas fa-list', Log::class);
+            yield MenuItem::linkToCrud('Entreprise', 'fas fa-building', Entreprise::class);
+            yield MenuItem::linkToCrud('Log', 'fas fa-file', Log::class);
         }
     }
 

@@ -13,17 +13,23 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class EntrepriseCrudController extends AbstractCrudController
 {
-    public function configureCrud(Crud $crud): Crud
-    {
-        return $crud
-            ->setEntityPermission('ROLE_ADMIN');
-    }
+
 
     public static function getEntityFqcn(): string
     {
         return Entreprise::class;
     }
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            // La sécurité
+            ->setEntityPermission('ROLE_ADMIN')
 
+            // Les titres personnalisés
+            ->setPageTitle(Crud::PAGE_EDIT, 'Modifier les informations de l’entreprise')
+            ->setPageTitle(Crud::PAGE_NEW, 'Ajouter une nouvelle entreprise')
+            ->setPageTitle(Crud::PAGE_INDEX, 'Liste des entreprises');
+    }
 
     public function configureFields(string $pageName): iterable
     {
