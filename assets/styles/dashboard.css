@@ -3,6 +3,31 @@ body {
     font-family: 'Merriweather', serif;
 }
 
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.badge {
+    margin: 0;
+    padding: 10px;
+    border-radius: 12px;
+    height: fit-content;
+}
+
+.badge.active {
+    background-color: #9ce18c;
+    color: #2e570f;
+}
+
 .tabs {
     display: flex;
     gap: 0;

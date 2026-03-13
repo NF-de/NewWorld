@@ -25,8 +25,8 @@ final class CheckArchivageController extends AbstractController
         }
 
         //Vérifie que l'utilisateur est admin ou directeur
-        if (!$this->isGranted('ROLE_ADMIN') || !$this->isGranted('ROLE_DIRECTOR')) {
-            return $this->redirectToRoute('app_main');
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_DIRECTOR')) {
+           return $this->redirectToRoute('app_main');
         }
 
         //Récupération de toutes les entreprises
@@ -34,9 +34,9 @@ final class CheckArchivageController extends AbstractController
         if ($entreprises) {
             foreach ($entreprises as $entreprise) {
                 $currentTime = new DateTime();
-                $timeToCompare = $entreprise->getDateArchivage()->modify('+3 months');
+                $timeToCompare = $entreprise->getDateArchivage()->modify('+2 months');
 
-                if ($timeToCompare >= $currentTime && $entreprise->getStatus() == "pre_avis") {
+                if ($timeToCompare <= $currentTime && $entreprise->getStatus() == "pre_avis") {
                     $entreprise->setStatus('archive');
                     $entreprise->setDateArchivage($currentTime);
                     $em->flush();

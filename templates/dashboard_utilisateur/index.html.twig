@@ -46,7 +46,10 @@
 			<!-- Onglet Entreprise -->
 			{% if entreprise %}
 				<div id="entreprise" class="tab-pane">
+				<div class="row w-100 space-between">
 					<h4>Infos entreprise</h4>
+					<p class="badge active">Status de l'entreprise : {{entreprise.status}}</p>
+				</div>
 					<form method="post" action="{{ path('app_dashboard_update_entreprise') }}">
 						<div>
 							<label>Nom entreprise :</label>
