@@ -32,6 +32,8 @@ class DashboardController extends AbstractDashboardController
             'users' => $this->entityManager->getRepository(User::class)->count([]),
             'entreprises' => $this->entityManager->getRepository(Entreprise::class)->count([]),
             'entreprises_valides' => $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'valide']),
+            'entreprises_non_valides' => $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'non_valide']),
+            'demande' => $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'attente']),
         ];
 
         // 3. ON ENVOIE LA VARIABLE AU TEMPLATE
@@ -49,10 +51,20 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        $nombreEntreprisesPartenaire = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'valide']);
+        $nombreEntreprisesAttente = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'attente']);
+        $nombreEntreprisesArchive = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'archive']);
+
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
-        yield MenuItem::linkTo(DemandeController::class, 'Demande partenaire', 'fas fa-envelope')->setAction('index');
-        yield MenuItem::linkTo(PartenaireController::class, 'Partenaire', 'fas fa-list')->setAction('index');
-        yield MenuItem::linkTo(ArchivageListController::class, 'Archivé', 'fas fa-file-zipper')->setAction('index');
+        yield MenuItem::linkTo(DemandeController::class, 'Demande partenaire', 'fas fa-envelope')
+            ->setAction('index')
+            ->setBadge($nombreEntreprisesAttente, 'badge bg-primary');
+        yield MenuItem::linkTo(PartenaireController::class, 'Partenaires', 'fas fa-list')
+            ->setAction('index')
+            ->setBadge($nombreEntreprisesPartenaire, 'badge bg-primary');
+        yield MenuItem::linkTo(ArchivageListController::class, 'Archivé', 'fas fa-file-zipper')
+            ->setAction('index')
+            ->setBadge($nombreEntreprisesArchive, 'badge bg-primary');
 
         // Section Gestion
         yield MenuItem::section('Gestion Utilisateurs');

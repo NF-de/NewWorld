@@ -48,7 +48,7 @@ final class FormulaireEntrepriseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $entreprise->setStatus('non_valide');
+            $entreprise->setStatus('attente');
 
             // Enregistrer l'entreprise en base de données
             $entityManager->persist($entreprise);

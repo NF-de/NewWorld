@@ -21,7 +21,7 @@ final class DemandeController extends AbstractController
         $partenairesDemande = [];
 
         foreach ($partenaires as $partenaire) {
-            if ($partenaire->getStatus() == "non_valide") {
+            if ($partenaire->getStatus() == "attente") {
                 $partenairesDemande[] = $partenaire;
             }
         }

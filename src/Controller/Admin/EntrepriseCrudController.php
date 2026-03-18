@@ -63,6 +63,7 @@ class EntrepriseCrudController extends AbstractCrudController
                         'pre_avis_entreprise' => '<span class="badge text-bg-warning">Pré avis</span>',
                         'pre_avis_newworld' => '<span class="badge text-bg-warning">Pré avis</span>',
                         'archive' => '<span class="badge text-bg-secondary">Archivé</span>',
+                        'attente' => '<span class="badge text-bg-secondary">En attente</span>',
                         'non_valide' => '<span class="badge text-bg-danger">Refusé</span>',
                         default => '<span class="badge text-bg-secondary">Inconnu</span>',
                     };
