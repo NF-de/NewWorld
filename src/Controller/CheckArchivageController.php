@@ -34,7 +34,7 @@ final class CheckArchivageController extends AbstractController
         if ($entreprises) {
             foreach ($entreprises as $entreprise) {
                 $currentTime = new DateTime();
-                $timeToCompare = $entreprise->getDateArchivage()->modify('+2 months');
+                $timeToCompare = $entreprise->getDatePreAvis()->modify('+2 months');
 
                 if ($timeToCompare <= $currentTime && $entreprise->getStatus() == "pre_avis_entreprise") {
                     $entreprise->setStatus('archive');

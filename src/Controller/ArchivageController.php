@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Entreprise;
 use App\Entity\User;
+use DateTime;
 
 final class ArchivageController extends AbstractController
 {
@@ -24,7 +25,10 @@ final class ArchivageController extends AbstractController
         if ($entreprise) {
             if ($entreprise->getStatus() != "pre_avis_entreprise" || $entreprise->getStatus() != "archive") {
                 $entreprise->setStatus("pre_avis_entreprise");
-                $entreprise->setDateArchivage(new \DateTime());
+                $entreprise->setDatePreAvis(new DateTime());
+                $dateFin = new DateTime();
+                $dateFin->modify('+2 months');
+                $entreprise->setDateFin($dateFin);
                 $em->flush();
             }
         } else {

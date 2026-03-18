@@ -36,7 +36,10 @@ final class ArchivageNewWorldController extends AbstractController
             if ($currentTime < $timeToCompare) {
                 if ($entreprise->getStatus() != "pre_avis_entreprise" || $entreprise->getStatus() != "archive" || $entreprise->getStatus() != "pre_avis_newworld") {
                     $entreprise->setStatus("pre_avis_newworld");
-                    $entreprise->setDateArchivage(new DateTime());
+                    $entreprise->setDatePreAvis(new DateTime());
+                    $dateFin = new DateTime();
+                    $dateFin->modify('+1 year');
+                    $entreprise->setDateFin($dateFin);
                     $em->flush();
                 }
             }
