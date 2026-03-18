@@ -54,7 +54,20 @@ class EntrepriseCrudController extends AbstractCrudController
                     function (User $user) {
                         return $user->getEmail();
                     }
-                )
+                ),
+            TextField::new('status')
+                ->setLabel('Statut')
+                ->formatValue(function ($value) {
+                    return match ($value) {
+                        'valide' => '<span class="badge text-bg-success">Validé</span>',
+                        'pre_avis_entreprise' => '<span class="badge text-bg-warning">Pré avis</span>',
+                        'pre_avis_newworld' => '<span class="badge text-bg-warning">Pré avis</span>',
+                        'archive' => '<span class="badge text-bg-secondary">Archivé</span>',
+                        'non_valide' => '<span class="badge text-bg-danger">Refusé</span>',
+                        default => '<span class="badge text-bg-secondary">Inconnu</span>',
+                    };
+                })
+                ->renderAsHtml(),
 
         ];
     }

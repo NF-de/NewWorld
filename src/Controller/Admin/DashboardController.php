@@ -50,6 +50,7 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
+        yield MenuItem::linkTo(DemandeController::class, 'Demande partenaire', 'fas fa-envelope')->setAction('index');
         yield MenuItem::linkTo(PartenaireController::class, 'Partenaire', 'fas fa-list')->setAction('index');
         yield MenuItem::linkTo(ArchivageListController::class, 'Archivé', 'fas fa-file-zipper')->setAction('index');
 

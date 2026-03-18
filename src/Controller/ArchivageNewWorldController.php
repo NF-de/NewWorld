@@ -14,16 +14,21 @@ final class ArchivageNewWorldController extends AbstractController
     #[Route('/archivageNewWorld/{id}', name: 'app_archivage_newworld')]
     public function index(int $id, EntityManagerInterface $em): Response
     {
+
+        if (!$id) {
+            $this->addFlash("error", "Aucun id");
+        }
+
         $user = $this->getUser();
 
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
 
-        $entreprises = $em->getRepository(Entreprise::class);
+        $entreprises = $em->getRepository(Entreprise::class)->findAll();
         foreach ($entreprises as $entreprise) {
             if ($entreprise->getId() == $id) {
-                $entrepriseToUse = $id;
+                $entrepriseToUse = $entreprise;
             }
         }
 
@@ -31,17 +36,30 @@ final class ArchivageNewWorldController extends AbstractController
 
 
             $currentTime = new DateTime();
-            $timeToCompare = $entreprise->getDateValidation()->modify('+6 months');
+
+            $dateValidation = $entrepriseToUse->getDateValidation();
+
+            $timeEndContractActualYear = (clone $dateValidation)->setDate(
+                (int) date('Y'),
+                (int) $dateValidation->format('m'),
+                (int) $dateValidation->format('d')
+            );
+            $timeEndContract = (clone $timeEndContractActualYear)->modify('+1 year');
+            $timeToCompare = (clone $timeEndContract)->modify('-6 months');
 
             if ($currentTime < $timeToCompare) {
-                if ($entreprise->getStatus() != "pre_avis_entreprise" || $entreprise->getStatus() != "archive" || $entreprise->getStatus() != "pre_avis_newworld") {
-                    $entreprise->setStatus("pre_avis_newworld");
-                    $entreprise->setDatePreAvis(new DateTime());
+                if ($entrepriseToUse->getStatus() != "pre_avis_entreprise" || $entrepriseToUse->getStatus() != "archive" || $entrepriseToUse->getStatus() != "pre_avis_newworld") {
+                    $entrepriseToUse->setStatus("pre_avis_newworld");
+                    $entrepriseToUse->setDatePreAvis(new DateTime());
                     $dateFin = new DateTime();
                     $dateFin->modify('+1 year');
-                    $entreprise->setDateFin($dateFin);
+                    $entrepriseToUse->setDateFin($dateFin);
                     $em->flush();
+                } else {
+                    $this->addFlash("error", "L'entreprise est déjà en pré avis");
                 }
+            } else {
+                $this->addFlash("error", "Le délais de demande de pré avis à été dépassé " . $timeToCompare->format('Y-m-d H:i:s') . " date actuelle : " . $currentTime->format('Y-m-d H:i:s'));
             }
 
 
@@ -49,7 +67,7 @@ final class ArchivageNewWorldController extends AbstractController
             $this->addFlash("error", "Aucune entreprise trouvé avec l'id fournit");
         }
 
-        return $this->redirectToRoute('app_dashboard');
+        return $this->redirectToRoute('admin_entreprise_index');
 
     }
 }
