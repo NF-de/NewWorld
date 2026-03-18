@@ -58,6 +58,12 @@ class Entreprise
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $dateFin = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $datePreAvis = null;
+
     public function __construct()
     {
         $this->logs = new ArrayCollection();
@@ -253,6 +259,30 @@ class Entreprise
     public function onPreUpdate(): void
     {
         $this->date_mise_a_jour = new \DateTime();
+    }
+
+    public function getDateFin(): ?\DateTime
+    {
+        return $this->dateFin;
+    }
+
+    public function setDateFin(?\DateTime $dateFin): static
+    {
+        $this->dateFin = $dateFin;
+
+        return $this;
+    }
+
+    public function getDatePreAvis(): ?\DateTime
+    {
+        return $this->datePreAvis;
+    }
+
+    public function setDatePreAvis(?\DateTime $datePreAvis): static
+    {
+        $this->datePreAvis = $datePreAvis;
+
+        return $this;
     }
     
 }

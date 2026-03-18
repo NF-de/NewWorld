@@ -50,11 +50,12 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
+        yield MenuItem::linkTo(PartenaireController::class, 'Partenaire', 'fas fa-list')->setAction('index');
+        yield MenuItem::linkTo(ArchivageListController::class, 'Archivé', 'fas fa-file-zipper')->setAction('index');
 
         // Section Gestion
         yield MenuItem::section('Gestion Utilisateurs');
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
-        yield MenuItem::linkTo(PartenaireController::class, 'Partenaire', 'fas fa-list')->setAction('index');
 
         // Section Administration (avec vérification de rôle)
         if ($this->isGranted('ROLE_ADMIN')) {
