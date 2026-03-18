@@ -54,6 +54,7 @@ class DashboardController extends AbstractDashboardController
         // Section Gestion
         yield MenuItem::section('Gestion Utilisateurs');
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
+        yield MenuItem::linkTo(PartenaireController::class, 'Partenaire', 'fas fa-list')->setAction('index');
 
         // Section Administration (avec vérification de rôle)
         if ($this->isGranted('ROLE_ADMIN')) {
