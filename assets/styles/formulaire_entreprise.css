@@ -1,0 +1,153 @@
+/* 1. Reset & Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Exo 2', sans-serif;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+/* 2. Titre */
+h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #333;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* 3. Conteneur du Formulaire */
+form {
+    background: #dedede;
+    padding: 40px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 4. Structure des lignes (form_row / form-group) */
+form > div, .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* 5. Labels */
+label {
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    transition: color 0.3s;
+}
+
+/* 6. Inputs (Widgets Symfony) */
+input, select, textarea {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    font-family: 'EB Garamond', serif; /* Garde ton style élégant */
+    transition: all 0.3s ease;
+    background-color: #fff;
+    color: #333;
+}
+
+input::placeholder {
+    color: #bbb;
+}
+
+input:focus {
+    outline: none;
+    border-color: #000;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
+}
+
+/* 7. Gestion des Erreurs Symfony */
+/* Cible les listes d'erreurs <ul> générées par form_errors */
+ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 6px;
+}
+
+ul li {
+    color: #dc3545;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Bordure rouge si le champ est invalide */
+input.is-invalid, .has-error input {
+    border-color: #dc3545;
+    background-color: #fffcfc;
+}
+
+/* 8. Alignement Spécifique (Ville / CP) */
+.form-row-multi {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.form-row-multi > div {
+    flex: 1;
+}
+
+/* 9. Bouton Envoyer */
+button[type="submit"], .bouton {
+    margin-top: 10px;
+    padding: 16px;
+    font-size: 16px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 50px; /* Style "pill" moderne */
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    text-decoration: none;
+}
+
+button[type="submit"]:hover, .bouton:hover {
+    background: #222;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+button[type="submit"]:active {
+    transform: translateY(-1px);
+}
+
+/* 10. Responsive */
+@media (max-width: 500px) {
+    form {
+        padding: 25px 20px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .form-row-multi {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
