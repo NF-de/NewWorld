@@ -27,7 +27,8 @@ class EntrepriseCrudController extends AbstractCrudController
     {
         return $crud
             // La sécurité
-            ->setEntityPermission('ROLE_ADMIN')
+
+            ->setEntityPermission('ROLE_SECRETAIRE')
 
             // Les titres personnalisés
             ->setPageTitle(Crud::PAGE_EDIT, 'Modifier les informations de l’entreprise')
@@ -38,6 +39,7 @@ class EntrepriseCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+
             //IdField::new('id'),
             TextField::new('nom'),
             TextField::new('adresse'),
@@ -75,12 +77,18 @@ class EntrepriseCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+
         $actionPreavis = Action::new('faire_preavis', 'Lancer le Préavis', 'fa fa-bell')
             ->linkToRoute('app_archivage_newworld', function ($entity) {
                 return ['id' => $entity->getId()];
             })
 
             ->displayIf(static function ($entity) {
+                // 1. CONDITION DE STATUT : On vérifie d'abord si c'est valide
+                if ($entity->getStatus() !== 'valide') {
+                    return false;
+                }
+
                 $dateValidation = $entity->getDateValidation();
 
                 // Si pas de date, on n'affiche rien
@@ -91,15 +99,11 @@ class EntrepriseCrudController extends AbstractCrudController
                 $aujourdhui = new \DateTimeImmutable('today');
                 $anneeEnCours = (int) $aujourdhui->format('Y');
 
-                // On crée deux fenêtres de tir : 
-                // 1. Celle de l'année dernière (ex: 01/12/2025 -> 01/06/2026)
-                // 2. Celle de cette année (ex: 01/12/2026 -> 01/06/2027)
-    
-                // Fenêtre 1 (Année précédente)
+                // (Année précédente)
                 $debut1 = (clone $dateValidation)->setDate($anneeEnCours - 1, (int) $dateValidation->format('m'), (int) $dateValidation->format('d'));
                 $fin1 = (clone $debut1)->modify('+6 months');
 
-                // Fenêtre 2 (Année en cours)
+                // (Année en cours)
                 $debut2 = (clone $dateValidation)->setDate($anneeEnCours, (int) $dateValidation->format('m'), (int) $dateValidation->format('d'));
                 $fin2 = (clone $debut2)->modify('+6 months');
 
@@ -109,17 +113,22 @@ class EntrepriseCrudController extends AbstractCrudController
 
                 return $estDansFenetre1 || $estDansFenetre2;
             });
+
         $valider = Action::new('valider', 'Valider', 'fa fa-check')
             ->linkToCrudAction('changeStatusToValide')
             ->displayIf(static function ($entity) {
                 return $entity->getStatus() === 'attente';
             });
         return $actions
+            ->setPermission(Action::EDIT, 'ROLE_ADMIN')   // Seul l'ADMIN peut éditer
+            ->setPermission(Action::DELETE, 'ROLE_ADMIN') // Seul l'ADMIN peut supprimer
+            ->setPermission('faire_preavis', 'ROLE_DIRECTOR')
             ->add(Crud::PAGE_INDEX, $actionPreavis)
             ->add(Crud::PAGE_DETAIL, $actionPreavis)
 
             ->add(Crud::PAGE_INDEX, $valider)
             ->add(Crud::PAGE_DETAIL, $valider);
+
     }
 
     public function changeStatusToValide(AdminContext $context, AdminUrlGenerator $adminUrlGenerator)

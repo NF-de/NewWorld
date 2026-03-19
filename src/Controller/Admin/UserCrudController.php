@@ -74,7 +74,7 @@ class UserCrudController extends AbstractCrudController
                     'Admin' => 'ROLE_ADMIN',
                     'Entreprise' => 'ROLE_ENTREPRISE',
                     'Secrétaire' => 'ROLE_SECRETAIRE',
-                    'Directeur' => 'ROLE_ADMIN',
+                    'Directeur' => 'ROLE_DIRECTOR',
                 ])
                 ->allowMultipleChoices(),
 

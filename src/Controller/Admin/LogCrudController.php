@@ -11,6 +11,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 
 
 class LogCrudController extends AbstractCrudController
@@ -18,7 +20,7 @@ class LogCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityPermission('ROLE_ADMIN');
+            ->setEntityPermission('ROLE_DIRECTOR');
     }
 
     public static function getEntityFqcn(): string
@@ -26,13 +28,23 @@ class LogCrudController extends AbstractCrudController
         return Log::class;
     }
 
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->disable(Action::EDIT)
+            ->disable(Action::DELETE)
+            ->disable(Action::NEW);
+    }
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('operation'),
-            TextField::new('table_concernee'),
-            TimeField::new('created_at'),
+            TextField::new('operation')
+                ->hideOnForm(),
+            TextField::new('table_concernee')
+                ->hideOnForm(),
+            TimeField::new('created_at')
+                ->hideOnForm(),
             AssociationField::new('user')
                 ->setLabel("Utilisateur")
                 ->setFormTypeOption(
@@ -40,17 +52,13 @@ class LogCrudController extends AbstractCrudController
                     function (User $user) {
                         return $user->getEmail();
                     }
-                ),
-            AssociationField::new('entreprise')
-                ->setLabel("Entreprise")
-                ->setFormTypeOption(
-                    "choice_label",
-                    function (Entreprise $entreprise) {
-                        return $entreprise->getEmail();
-                    }
-                ),
+                )
+                ->hideOnForm(),
             TextEditorField::new('message')
+                ->hideOnForm(),
         ];
     }
+
+
 
 }

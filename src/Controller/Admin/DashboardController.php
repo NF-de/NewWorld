@@ -57,32 +57,38 @@ class DashboardController extends AbstractDashboardController
         $nombreEntreprisesArchive = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'archive']);
 
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
-        yield MenuItem::linkTo(DemandeController::class, 'Demande partenaire', 'fas fa-envelope')
-            ->setAction('index')
-            ->setBadge($nombreEntreprisesAttente, 'badge bg-primary');
-        yield MenuItem::linkTo(PartenaireController::class, 'Partenaires', 'fas fa-list')
-            ->setAction('index')
-            ->setBadge($nombreEntreprisesPartenaire, 'badge bg-primary');
-        yield MenuItem::linkTo(ArchivageListController::class, 'Archivé', 'fas fa-file-zipper')
-            ->setAction('index')
-            ->setBadge($nombreEntreprisesArchive, 'badge bg-primary');
-
-        // Section Gestion
-        yield MenuItem::section('Gestion Utilisateurs');
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
-
-        // Section Administration (avec vérification de rôle)
-        if ($this->isGranted('ROLE_ADMIN')) {
-            yield MenuItem::section('Administration système');
-
-            // Un sous-menu pour regrouper Entreprises et Logs
-            yield MenuItem::linkToCrud('Entreprises', 'fas fa-building', Entreprise::class);
-            yield MenuItem::linkToCrud('Logs système', 'fas fa-file-alt', Log::class);
-
-
-
+        if ($this->isGranted('ROLE_DIRECTOR')) {
+            yield MenuItem::linkTo(DemandeController::class, 'Demande partenaire', 'fas fa-envelope')
+                ->setAction('index')
+                ->setBadge($nombreEntreprisesAttente, 'badge bg-primary');
         }
+        if ($this->isGranted('ROLE_DIRECTOR')) {
 
+            yield MenuItem::linkTo(PartenaireController::class, 'Partenaires', 'fas fa-list')
+                ->setAction('index')
+                ->setBadge($nombreEntreprisesPartenaire, 'badge bg-primary');
+        }
+        if ($this->isGranted('ROLE_DIRECTOR')) {
+
+            yield MenuItem::linkTo(ArchivageListController::class, 'Archivé', 'fas fa-file-zipper')
+                ->setAction('index')
+                ->setBadge($nombreEntreprisesArchive, 'badge bg-primary');
+        }
+        // Section Gestion
+        if ($this->isGranted('ROLE_ADMIN')) {
+            yield MenuItem::section('Gestion Utilisateurs');
+            yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
+        }
+        // Section Administration (avec vérification de rôle)
+        yield MenuItem::section('Administration système');
+
+        // Ce lien mène à la LISTE (Index), pas à l'édition, donc il est correct
+        yield MenuItem::linkToCrud('Entreprises', 'fas fa-building', Entreprise::class);
+
+        // Vérification de rôle pour les logs
+        if ($this->isGranted('ROLE_DIRECTOR')) {
+            yield MenuItem::linkToCrud('Logs système', 'fas fa-file-alt', Log::class);
+        }
         // Section Liens Externes
         yield MenuItem::section(); // Ligne de séparation
         yield MenuItem::linkToLogout('Déconnexion', 'fas fa-sign-out-alt');
