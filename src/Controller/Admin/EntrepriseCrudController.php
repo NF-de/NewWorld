@@ -120,8 +120,18 @@ class EntrepriseCrudController extends AbstractCrudController
                 return $entity->getStatus() === 'attente';
             });
         return $actions
+            // On modifie l'action DELETE existante pour ajouter la confirmation
+            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
+                return $action->setHtmlAttributes([
+                ]);
+            })
+            // On fait de même pour la page DETAIL si tu l'utilises
+            ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action) {
+                return $action->setHtmlAttributes([
+                ]);
+            })
             ->setPermission(Action::EDIT, 'ROLE_ADMIN')   // Seul l'ADMIN peut éditer
-            ->setPermission(Action::DELETE, 'ROLE_ADMIN') // Seul l'ADMIN peut supprimer
+            ->setPermission(Action::DELETE, 'ROLE_DIRECTOR') // Seul Directeur et l'ADMIN peut supprimer
             ->setPermission('faire_preavis', 'ROLE_DIRECTOR')
             ->add(Crud::PAGE_INDEX, $actionPreavis)
             ->add(Crud::PAGE_DETAIL, $actionPreavis)

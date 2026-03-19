@@ -3,53 +3,48 @@
 {% block title %}Demande création entreprise{% endblock %}
 
 {% block body %}
-<link href="{{ asset('styles/formulaire_entreprise.css') }}" type="text/css" rel="stylesheet" />
+<link href="{{ asset('styles/login.css') }}" type="text/css" rel="stylesheet" />
 
-<div class="form-container">
-    <h1>Formulaire Entreprise</h1>
+<h1>Formulaire Entreprise</h1>
 
+{# form_start génère la balise <form> qui a déjà tout ton style (fond blanc, shadow, etc.) #}
     {{ form_start(form) }}
-    {# On laisse Symfony générer les lignes, mais on personnalise l'affichage #}
 
-    <div class="form-group">
-        {{ form_label(form.nom) }}
-        {{ form_widget(form.nom, {'attr': {'placeholder': 'Nom de l\'entreprise'}}) }}
-        {{ form_errors(form.nom) }}
-    </div>
+    {# On utilise form_widget pour n'avoir que l'input pur et profiter du style global #}
+    {{ form_widget(form.nom, {'attr': {'placeholder': 'Nom de l\'entreprise'}}) }}
+    {{ form_errors(form.nom) }}
 
-    <div class="form-group">
-        {{ form_label(form.adresse) }}
-        {{ form_widget(form.adresse, {'attr': {'placeholder': 'Adresse'}}) }}
-        {{ form_errors(form.adresse) }}
-    </div>
+    {{ form_widget(form.adresse, {'attr': {'placeholder': 'Adresse'}}) }}
+    {{ form_errors(form.adresse) }}
 
-    <div class="form-row-multi">
-        <div class="form-group">
-            {{ form_label(form.ville) }}
-            {{ form_widget(form.ville, {'attr': {'placeholder': 'Ville'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_label(form.code_postal) }}
-            {{ form_widget(form.code_postal, {'attr': {'placeholder': 'Code Postal'}}) }}
-        </div>
-    </div>
+    {# Pour la ville et le CP sur la même ligne, on peut garder une petite div flex #}
 
-    <div class="form-group">
-        {{ form_label(form.siret) }}
-        {{ form_widget(form.siret, {'attr': {'placeholder': 'SIRET'}}) }}
-    </div>
 
-    <div class="form-group">
-        {{ form_label(form.email) }}
-        {{ form_widget(form.email, {'attr': {'placeholder': 'Email'}}) }}
-    </div>
+    {{ form_widget(form.ville, {'attr': {'placeholder': 'Ville'}}) }}
 
-    <div class="form-group">
-        {{ form_label(form.telephone) }}
-        {{ form_widget(form.telephone, {'attr': {'placeholder': 'Téléphone'}}) }}
-    </div>
+
+    {{ form_widget(form.code_postal, {'attr': {'placeholder': 'Code Postal'}}) }}
+
+
+
+    {{ form_widget(form.siret, {'attr': {'placeholder': 'SIRET'}}) }}
+    {{ form_errors(form.siret) }}
+
+    {{ form_widget(form.email, {'attr': {'placeholder': 'Email'}}) }}
+    {{ form_errors(form.email) }}
+
+    {{ form_widget(form.telephone, {'attr': {'placeholder': 'Téléphone'}}) }}
+    {{ form_errors(form.telephone) }}
 
     <button type="submit" class="bouton">Envoyer</button>
+
+    {# form_rest affiche les champs cachés comme le token CSRF #}
+    {{ form_rest(form) }}
+
     {{ form_end(form) }}
-</div>
-{% endblock %}
+
+    <p>
+        <a href="{{ path('app_dashboard_update_user') }}">← Retour à l'accueil</a>
+    </p>
+
+    {% endblock %}
