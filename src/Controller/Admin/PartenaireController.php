@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class PartenaireController extends AbstractController
 {
-    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")'))]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_DIRECTOR")'))]
     #[AdminRoute("/admin/partenaire", "admin_partenaire_index")]
     public function index(EntityManagerInterface $em): Response
     {

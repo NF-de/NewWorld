@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class DemandeController extends AbstractController
 {
-    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")'))]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_DIRECTOR")'))]
     #[AdminRoute("/admin/demande", "admin_demande_index")]
     public function index(EntityManagerInterface $em): Response
     {

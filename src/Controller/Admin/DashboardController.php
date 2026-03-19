@@ -12,9 +12,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\User;
 use App\Entity\Entreprise;
 use App\Entity\Log;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Doctrine\ORM\EntityManagerInterface;
 
-#[IsGranted('ROLE_SECRETAIRE')]
+#[IsGranted(new Expression('is_granted("ROLE_SECRETAIRE") or is_granted("ROLE_DIRECTOR")'))]
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
@@ -79,8 +80,7 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('Logs système', 'fas fa-file-alt', Log::class);
 
 
-            yield MenuItem::section('Maintenance');
-            yield MenuItem::linkToRoute('Vider le Cache', 'fas fa-broom', 'app_clear_cache');
+
         }
 
         // Section Liens Externes

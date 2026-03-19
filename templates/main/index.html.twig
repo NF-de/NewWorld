@@ -1,40 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bienvenue sur NewWorld{% endblock %}
+{% block title %}Bienvenue sur NewWorld
+{% endblock %}
 
 {% block body %}
-<link href="{{ asset('styles/home.css') }}" type="text/css" rel="stylesheet" />
-<div class="navbar">
-    <a href="/" class="logo">NewWorld</a>
-    <div class="nav-links">
-    {% if is_granted('ROLE_ENTREPRISE') %}
-        <a href="{{ path('app_dashboard') }}" class="login">Dashboard Entreprise</a>
-    {% elseif is_granted('ROLE_ADMIN') or is_granted('ROLE_SECRETAIRE') %}
-        <a href="{{ path('admin') }}" class="login">Dashboard</a>
-    {% else %}
-        <a href="{{ path('app_register') }}" class="register">S'inscrire</a>
-    {% endif %}
-    
+	<link href="{{ asset('styles/home.css') }}" type="text/css" rel="stylesheet"/>
+	<div class="navbar">
+		<a href="/" class="logo">NewWorld</a>
+		<div class="nav-links">
+			{% if is_granted('ROLE_ENTREPRISE') %}
+				<a href="{{ path('app_dashboard') }}" class="login">Dashboard Entreprise</a>
+			{% elseif is_granted('ROLE_ADMIN') or is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_DIRECTOR')%}
+				<a href="{{ path('admin') }}" class="login">Dashboard</a>
+			{% else %}
+				<a href="{{ path('app_register') }}" class="register">S'inscrire</a>
+			{% endif %}
 
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <a href="{{ path('app_logout') }}" class="logout">Se déconnecter</a>
-    {% else %}
-        <a href="{{ path('app_login') }}" class="login">Se connecter</a>
-    {% endif %}
-</div>
 
-</div>
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="alert alert-{{ label }} mt-3">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endfor %}
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				<a href="{{ path('app_logout') }}" class="logout">Se déconnecter</a>
+			{% else %}
+				<a href="{{ path('app_login') }}" class="login">Se connecter</a>
+			{% endif %}
+		</div>
 
-<div class="hero">
-    <h1>Bienvenue sur NewWorld</h1>
-    <p>Connectez-vous ou inscrivez-vous pour accéder à toutes nos fonctionnalités.</p>
-</div>
+	</div>
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-{{ label }} mt-3">
+				{{ message }}
+			</div>
+		{% endfor %}
+	{% endfor %}
+
+	<div class="hero">
+		<h1>Bienvenue sur NewWorld</h1>
+		<p>Connectez-vous ou inscrivez-vous pour accéder à toutes nos fonctionnalités.</p>
+	</div>
 
 {% endblock %}

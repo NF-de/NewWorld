@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class ArchivageListController extends AbstractController
 {
-    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_EDITOR")'))]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_DIRECTOR")'))]
     #[AdminRoute("/admin/archive", "admin_archive_index")]
     public function index(EntityManagerInterface $em): Response
     {

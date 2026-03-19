@@ -49,24 +49,22 @@
 					<div class="row w-100 space-between">
 						<h4>Infos entreprise</h4>
 						{% if entreprise.status == "valide" %}
-						<p class="badge active">Status de l'entreprise :
-							Validé</p>
+							<p class="badge active">Status de l'entreprise : Validé</p>
 						{% endif %}
 						{% if entreprise.status == "non_valide" %}
-						<p class="badge danger">Status de l'entreprise :
-							Non Validé</p>
+							<p class="badge danger">Status de l'entreprise : Non Validé</p>
 						{% endif %}
 						{% if entreprise.status == "pre_avis_entreprise" %}
-						<p class="badge warning">Status de l'entreprise :
-							Pré Avis</p>
+							<p class="badge warning">Status de l'entreprise : Pré Avis</p>
 						{% endif %}
 						{% if entreprise.status == "pre_avis_newworld" %}
-						<p class="badge warning">Status de l'entreprise :
-							Pré Avis</p>
+							<p class="badge warning">Status de l'entreprise : Pré Avis</p>
+						{% endif %}
+						{% if entreprise.status == "attente" %}
+							<p class="badge inactive">Status de l'entreprise : En attente</p>
 						{% endif %}
 						{% if entreprise.status == "archive" %}
-						<p class="badge inactive">Status de l'entreprise :
-							Archivé</p>
+							<p class="badge inactive">Status de l'entreprise : Archivé</p>
 						{% endif %}
 					</div>
 					<form method="post" action="{{ path('app_dashboard_update_entreprise') }}">
@@ -111,9 +109,11 @@
 				{% if not entreprise %}
 					<a href="{{ path('app_formulaire_entreprise') }}" class="btn btn-primary">Formulaire Entreprise</a>
 				{% endif %}
-				{% if  entreprise %}
-
+				{% if  entreprise and entreprise.status == "valide" %}
 					<a href="{{ path('app_archivage') }}" class="btn btn-secondary">Archivage</a>
+				{% endif %}
+				{% if  entreprise and entreprise.status == "non-valide" %}
+					<a href="{{ path('app_archivage') }}" class="btn btn-success">Reapply</a>
 				{% endif %}
 			</div>
 		</div>
@@ -134,4 +134,3 @@ document.querySelector (`[onclick="openTab('${tabId}')"]`).classList.add('active
 	</script>
 
 {% endblock %}
-

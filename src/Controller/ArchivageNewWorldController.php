@@ -44,22 +44,30 @@ final class ArchivageNewWorldController extends AbstractController
                 (int) $dateValidation->format('m'),
                 (int) $dateValidation->format('d')
             );
-            $timeEndContract = (clone $timeEndContractActualYear)->modify('+1 year');
-            $timeToCompare = (clone $timeEndContract)->modify('-6 months');
+            //$timeEndContract = (clone $timeEndContractActualYear)->modify('+1 year');
+            $timeToCompare = (clone $timeEndContractActualYear)->modify('-6 months');
 
             if ($currentTime < $timeToCompare) {
                 if ($entrepriseToUse->getStatus() != "pre_avis_entreprise" || $entrepriseToUse->getStatus() != "archive" || $entrepriseToUse->getStatus() != "pre_avis_newworld") {
                     $entrepriseToUse->setStatus("pre_avis_newworld");
                     $entrepriseToUse->setDatePreAvis(new DateTime());
-                    $dateFin = new DateTime();
-                    $dateFin->modify('+1 year');
+                    $dateFin = $timeEndContractActualYear;
                     $entrepriseToUse->setDateFin($dateFin);
                     $em->flush();
                 } else {
                     $this->addFlash("error", "L'entreprise est déjà en pré avis");
                 }
             } else {
-                $this->addFlash("error", "Le délais de demande de pré avis à été dépassé " . $timeToCompare->format('Y-m-d H:i:s') . " date actuelle : " . $currentTime->format('Y-m-d H:i:s'));
+                if ($entrepriseToUse->getStatus() != "pre_avis_entreprise" || $entrepriseToUse->getStatus() != "archive" || $entrepriseToUse->getStatus() != "pre_avis_newworld") {
+                    $entrepriseToUse->setStatus("pre_avis_newworld");
+                    $entrepriseToUse->setDatePreAvis(new DateTime());
+                    $dateFin = $timeEndContractActualYear->modify("+1 year");
+                    $entrepriseToUse->setDateFin($dateFin);
+                    $em->flush();
+                } else {
+                    $this->addFlash("error", "L'entreprise est déjà en pré avis");
+                }
+                $this->addFlash("warning", "La date de préavis de l'anné actuelle est dépassé, le contrat durera jusqu'à l'anné suivante");
             }
 
 

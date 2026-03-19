@@ -112,7 +112,7 @@ class EntrepriseCrudController extends AbstractCrudController
         $valider = Action::new('valider', 'Valider', 'fa fa-check')
             ->linkToCrudAction('changeStatusToValide')
             ->displayIf(static function ($entity) {
-                return $entity->getStatus() === 'non_valide';
+                return $entity->getStatus() === 'attente';
             });
         return $actions
             ->add(Crud::PAGE_INDEX, $actionPreavis)
