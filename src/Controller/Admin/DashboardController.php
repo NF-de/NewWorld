@@ -55,6 +55,7 @@ class DashboardController extends AbstractDashboardController
         $nombreEntreprisesPartenaire = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'valide']);
         $nombreEntreprisesAttente = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'attente']);
         $nombreEntreprisesArchive = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'archive']);
+        $nombreEntreprisesAttenteQualite = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'attente_qualite']);
 
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
         if ($this->isGranted('ROLE_DIRECTOR')) {
@@ -74,6 +75,9 @@ class DashboardController extends AbstractDashboardController
                 ->setAction('index')
                 ->setBadge($nombreEntreprisesArchive, 'badge bg-primary');
         }
+        yield MenuItem::linkTo(QualityController::class, 'Contrôle qualité', 'fas fa-broom')
+            ->setAction('index')
+            ->setBadge($nombreEntreprisesAttenteQualite, 'badge bg-primary');
         // Section Gestion
         if ($this->isGranted('ROLE_ADMIN')) {
             yield MenuItem::section('Gestion Utilisateurs');

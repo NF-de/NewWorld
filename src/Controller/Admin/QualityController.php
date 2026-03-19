@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -11,44 +12,45 @@ use Symfony\Component\ExpressionLanguage\Expression;
 use App\Entity\Entreprise;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class DemandeController extends AbstractController
+final class QualityController extends AbstractController
 {
-    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_DIRECTOR")'))]
-    #[AdminRoute("/admin/demande", "demande_index")]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_SECRETARY")'))]
+    #[AdminRoute("/admin/quality", "quality_index")]
     public function index(EntityManagerInterface $em): Response
     {
         $partenaires = $em->getRepository(Entreprise::class)->findAll();
-        $partenairesDemande = [];
+        $partenairesValide = [];
 
         foreach ($partenaires as $partenaire) {
-            if ($partenaire->getStatus() == "attente") {
-                $partenairesDemande[] = $partenaire;
+            if ($partenaire->getStatus() == "attente_qualite") {
+                $partenairesValide[] = $partenaire;
             }
         }
 
-        return $this->render('admin/demande/index.html.twig', [
-            'partenaires' => $partenairesDemande
+        return $this->render('admin/qualite/index.html.twig', [
+            'partenaires' => $partenairesValide
         ]);
     }
 
     #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_DIRECTOR")'))]
-    #[AdminRoute("/demande/accept/{id}", "admin_demande_accept")]
+    #[AdminRoute("/quality/accept/{id}", "admin_quality_accept")]
     public function acceptDemande(EntityManagerInterface $em, int $id): Response
     {
         $partenaire = $em->getRepository(Entreprise::class)->find($id);
 
         if ($partenaire) {
-            $partenaire->setStatus("attente_qualite");
+            $partenaire->setStatus("valide");
+            $partenaire->setDateValidation(new DateTime());
             $em->flush();
         } else {
             $this->addFlash("error", "Aucun partenaire trouvé veuillez rafraichir la page et réessayer");
         }
 
-        return $this->redirectToRoute("admin_demande_index");
+        return $this->redirectToRoute("admin_quality_index");
     }
 
     #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_DIRECTOR")'))]
-    #[AdminRoute("/demande/deny/{id}", "admin_demande_deny")]
+    #[AdminRoute("/quality/deny/{id}", "admin_quality_deny")]
     public function denyDemande(EntityManagerInterface $em, int $id): Response
     {
         $partenaire = $em->getRepository(Entreprise::class)->find($id);
@@ -60,6 +62,6 @@ final class DemandeController extends AbstractController
             $this->addFlash("error", "Aucun partenaire trouvé veuillez rafraichir la page et réessayer");
         }
 
-        return $this->redirectToRoute("admin_demande_index");
+        return $this->redirectToRoute("admin_quality_index");
     }
 }
