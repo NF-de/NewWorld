@@ -21,7 +21,7 @@ final class PartenaireController extends AbstractController
         $partenairesValide = [];
 
         foreach ($partenaires as $partenaire) {
-            if ($partenaire->getStatus() == "valide" && $partenaire->getStatus() == "pre_avis_entreprise" && $partenaire->getStatus() == "pre_avis_newworld") {
+            if ($partenaire->getStatus() == "valide" || $partenaire->getStatus() == "pre_avis_entreprise" || $partenaire->getStatus() == "pre_avis_newworld") {
                 $partenairesValide[] = $partenaire;
             }
         }
