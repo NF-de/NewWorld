@@ -41,14 +41,6 @@ class LogCrudController extends AbstractCrudController
                         return $user->getEmail();
                     }
                 ),
-            AssociationField::new('entreprise')
-                ->setLabel("Entreprise")
-                ->setFormTypeOption(
-                    "choice_label",
-                    function (Entreprise $entreprise) {
-                        return $entreprise->getEmail();
-                    }
-                ),
             TextEditorField::new('message')
         ];
     }

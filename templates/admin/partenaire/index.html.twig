@@ -32,7 +32,9 @@
 								Voir l'entreprise
 							</button>
 						</a>
-						<button class="btn btn-danger mx-2">Archivé l'entreprise</button>
+						<a href="/archivageNewWorld/{{ partenaire.id }}">
+							<button class="btn btn-danger mx-2">Archivé l'entreprise</button>
+						</a>
 					</div>
 					{% if partenaire.status == "valide" %}
 						<span style="height: fit-content;" class="p-1 badge text-bg-success">Validé</span>

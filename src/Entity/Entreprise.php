@@ -48,12 +48,6 @@ class Entreprise
     #[ORM\Column(nullable: true)]
     private ?\DateTime $date_mise_a_jour = null;
 
-    /**
-     * @var Collection<int, Log>
-     */
-    #[ORM\OneToMany(targetEntity: Log::class, mappedBy: 'entreprise')]
-    private Collection $logs;
-
     #[ORM\OneToOne(inversedBy: 'entreprise', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -206,36 +200,6 @@ class Entreprise
         return $this;
     }
 
-    /**
-     * @return Collection<int, Log>
-     */
-    public function getLogs(): Collection
-    {
-        return $this->logs;
-    }
-
-    public function addLog(Log $log): static
-    {
-        if (!$this->logs->contains($log)) {
-            $this->logs->add($log);
-            $log->setEntreprise($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLog(Log $log): static
-    {
-        if ($this->logs->removeElement($log)) {
-            // set the owning side to null (unless already changed)
-            if ($log->getEntreprise() === $this) {
-                $log->setEntreprise(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -284,5 +248,5 @@ class Entreprise
 
         return $this;
     }
-    
+
 }

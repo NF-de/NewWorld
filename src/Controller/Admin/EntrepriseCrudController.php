@@ -39,16 +39,16 @@ class EntrepriseCrudController extends AbstractCrudController
     {
         return [
             //IdField::new('id'),
-            TextField::new('nom'),
-            TextField::new('adresse'),
-            TextField::new('ville'),
+            TextField::new('nom')->hideOnIndex(),
+            TextField::new('adresse')->hideOnIndex(),
+            TextField::new('ville')->hideOnIndex(),
             IntegerField::new('code_postal'),
             IntegerField::new('siret'),
-            TextField::new('email'),
+            TextField::new('email')->setLabel("Email de l'entreprise"),
             IntegerField::new('telephone'),
             //TextEditorField::new('email'),
             AssociationField::new('user')
-                ->setLabel("Utilisateur")
+                ->setLabel("Gérant")
                 ->setFormTypeOption(
                     "choice_label",
                     function (User $user) {

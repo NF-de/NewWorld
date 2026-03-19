@@ -67,11 +67,6 @@ class AuditLogListener
         $log->setCreatedAt(new \DateTime());
         $log->setUser($user);
 
-        $entreprise = $user->getEntreprise();
-        if ($entreprise) {
-            $log->setEntreprise($entreprise);
-        }
-
         // Dire à Doctrine d'ajouter ce Log à la transaction SQL en cours
         $em->persist($log);
         $classMetadata = $em->getClassMetadata(Log::class);
