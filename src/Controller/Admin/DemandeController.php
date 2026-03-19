@@ -55,6 +55,7 @@ final class DemandeController extends AbstractController
 
         if ($partenaire) {
             $partenaire->setStatus("non_valide");
+            $partenaire->setCauseRefus("demande");
             $em->flush();
         } else {
             $this->addFlash("error", "Aucun partenaire trouvé veuillez rafraichir la page et réessayer");

@@ -58,6 +58,9 @@ class Entreprise
     #[ORM\Column(nullable: true)]
     private ?\DateTime $datePreAvis = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $causeRefus = null;
+
     public function __construct()
     {
         $this->logs = new ArrayCollection();
@@ -245,6 +248,18 @@ class Entreprise
     public function setDatePreAvis(?\DateTime $datePreAvis): static
     {
         $this->datePreAvis = $datePreAvis;
+
+        return $this;
+    }
+
+    public function getCauseRefus(): ?string
+    {
+        return $this->causeRefus;
+    }
+
+    public function setCauseRefus(?string $causeRefus): static
+    {
+        $this->causeRefus = $causeRefus;
 
         return $this;
     }

@@ -57,6 +57,7 @@ final class QualityController extends AbstractController
 
         if ($partenaire) {
             $partenaire->setStatus("non_valide");
+            $partenaire->setCauseRefus("qualite");
             $em->flush();
         } else {
             $this->addFlash("error", "Aucun partenaire trouvé veuillez rafraichir la page et réessayer");
