@@ -30,9 +30,6 @@ class Log
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'logs')]
-    private ?Entreprise $entreprise = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -94,18 +91,6 @@ class Log
     public function setUser(?User $user): static
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getEntreprise(): ?Entreprise
-    {
-        return $this->entreprise;
-    }
-
-    public function setEntreprise(?Entreprise $entreprise): static
-    {
-        $this->entreprise = $entreprise;
 
         return $this;
     }
