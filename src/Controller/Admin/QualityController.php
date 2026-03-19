@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class QualityController extends AbstractController
 {
-    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_SECRETARY")'))]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_SECRETAIRE")'))]
     #[AdminRoute("/admin/quality", "quality_index")]
     public function index(EntityManagerInterface $em): Response
     {
@@ -32,7 +32,7 @@ final class QualityController extends AbstractController
         ]);
     }
 
-    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_DIRECTOR")'))]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_SECRETAIRE")'))]
     #[AdminRoute("/quality/accept/{id}", "admin_quality_accept")]
     public function acceptDemande(EntityManagerInterface $em, int $id): Response
     {
@@ -49,7 +49,7 @@ final class QualityController extends AbstractController
         return $this->redirectToRoute("admin_quality_index");
     }
 
-    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_DIRECTOR")'))]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_SECRETAIRE")'))]
     #[AdminRoute("/quality/deny/{id}", "admin_quality_deny")]
     public function denyDemande(EntityManagerInterface $em, int $id): Response
     {
