@@ -26,7 +26,7 @@ final class CheckArchivageNewWorldController extends AbstractController
 
         //Vérifie que l'utilisateur est admin ou directeur
         if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_DIRECTOR')) {
-           return $this->redirectToRoute('app_main');
+            return $this->redirectToRoute('app_login');
         }
 
         //Récupération de toutes les entreprises
@@ -34,7 +34,7 @@ final class CheckArchivageNewWorldController extends AbstractController
         if ($entreprises) {
             foreach ($entreprises as $entreprise) {
                 $currentTime = new DateTime();
-                $timeToCompare = $entreprise->getDateValidation()->modify('+1 years');
+                $timeToCompare = $entreprise->getDateFin();
 
                 if ($timeToCompare <= $currentTime && $entreprise->getStatus() == "pre_avis_newWorld") {
                     $entreprise->setStatus('archive');
@@ -44,6 +44,6 @@ final class CheckArchivageNewWorldController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('app_main');
+        return $this->redirectToRoute('admin');
     }
 }
