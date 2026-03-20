@@ -1,17 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Demande création entreprise{% endblock %}
+{% block title %}Demande création entreprise
+{% endblock %}
 
 {% block body %}
-<link href="{{ asset('styles/login.css') }}" type="text/css" rel="stylesheet" />
+<link href="{{ asset('styles/login.css') }}" type="text/css" rel="stylesheet"/>
 
 <h1>Formulaire Entreprise</h1>
 
 {# form_start génère la balise <form> qui a déjà tout ton style (fond blanc, shadow, etc.) #}
-    {{ form_start(form) }}
+{{ form_start(form) }}
 
-    {# On utilise form_widget pour n'avoir que l'input pur et profiter du style global #}
-    {{ form_widget(form.nom, {'attr': {'placeholder': 'Nom de l\'entreprise'}}) }}
+{# On utilise form_widget pour n'avoir que l'input pur et profiter du style global #}
+{{ form_widget(form.nom, {'attr': {'placeholder': 'Nom de l\'entreprise'}}) }}
     {{ form_errors(form.nom) }}
 
     {{ form_widget(form.adresse, {'attr': {'placeholder': 'Adresse'}}) }}
@@ -23,17 +24,41 @@
     {{ form_widget(form.ville, {'attr': {'placeholder': 'Ville'}}) }}
 
 
-    {{ form_widget(form.code_postal, {'attr': {'placeholder': 'Code Postal'}}) }}
+    {{ form_widget(form.code_postal, {
+    'attr': {
+        'placeholder': 'Code Postal (Seulement des chiffres)',
+        'maxlength': '5',
+        'pattern': '\\d{5}',
+        'inputmode': 'numeric',
+        'oninput': "this.value = this.value.replace(/[^0-9]/g, '');"
+    }
+    }) }}
 
 
 
-    {{ form_widget(form.siret, {'attr': {'placeholder': 'SIRET'}}) }}
+    {{ form_widget(form.siret, {
+    'attr': {
+        'placeholder': 'SIRET (Seulement des chiffres)',
+        'maxlength': '14',
+        'pattern': '\\d{14}',
+        'inputmode': 'numeric',
+        'oninput': "this.value = this.value.replace(/[^0-9]/g, '');"
+    }
+    }) }}
     {{ form_errors(form.siret) }}
 
     {{ form_widget(form.email, {'attr': {'placeholder': 'Email'}}) }}
     {{ form_errors(form.email) }}
 
-    {{ form_widget(form.telephone, {'attr': {'placeholder': 'Téléphone'}}) }}
+    {{ form_widget(form.telephone, {
+    'attr': {
+        'placeholder': 'Téléphone (ex: 0612345678)',
+        'maxlength': '10',
+        'pattern': '\\d{10}',
+        'inputmode': 'tel',
+        'oninput': "this.value = this.value.replace(/[^0-9]/g, '');"
+    }
+    }) }}
     {{ form_errors(form.telephone) }}
 
     <button type="submit" class="bouton">Envoyer</button>
