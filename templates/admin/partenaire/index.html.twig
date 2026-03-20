@@ -32,9 +32,11 @@
 								Voir l'entreprise
 							</button>
 						</a>
-						<a href="/archivageNewWorld/{{ partenaire.id }}">
-							<button class="btn btn-danger mx-2">Archivé l'entreprise</button>
-						</a>
+						{% if partenaire.status == "valide"%}
+							<a href="/archivageNewWorld/{{ partenaire.id }}">
+								<button class="btn btn-danger mx-2">Faire une demande de résiliation de contrat</button>
+							</a>
+						{% endif %}
 					</div>
 					{% if partenaire.status == "valide" %}
 						<span style="height: fit-content;" class="p-1 badge text-bg-success">Validé</span>

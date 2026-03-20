@@ -53,6 +53,8 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         $nombreEntreprisesPartenaire = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'valide']);
+        $nombreEntreprisesPartenaire = $nombreEntreprisesPartenaire + $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'pre_avis_newworld']);
+        $nombreEntreprisesPartenaire = $nombreEntreprisesPartenaire + $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'pre_avis_entreprise']);
         $nombreEntreprisesAttente = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'attente']);
         $nombreEntreprisesArchive = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'archive']);
         $nombreEntreprisesAttenteQualite = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'attente_qualite']);
