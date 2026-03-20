@@ -5,11 +5,11 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-	<link href="{{ asset('styles/dashboard.css') }}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
+	<link href="{{ asset('styles/dashboard.css') }}" rel="stylesheet">
 	<div
 		class="dashboard-container">
 		{# <h2>Dashboard de {{ user.nom }} {{ user.prenom }}</h2> #}
@@ -58,11 +58,11 @@
 							{% if entreprise.status == "non_valide" %}
 								{% if entreprise.causeRefus == "demande"%}
 									<p class="badge danger">Statut : Non validé. Les informations relatives à votre entreprise comportent
-																																																																																																																																																																																																																																																des erreurs ou des incohérences qui ne permettent pas la validation de votre dossier.</p>
+																																																																																																																																																																																																																																																										des erreurs ou des incohérences qui ne permettent pas la validation de votre dossier.</p>
 								{% endif %}
 								{% if entreprise.causeRefus == "qualite"%}
 									<p class="badge danger">Statut : Non validé. Votre dossier présente des insuffisances concernant les
-																																																																																																																																																																																																																																																protocoles de contrôle qualité requis.</p>
+																																																																																																																																																																																																																																																										protocoles de contrôle qualité requis.</p>
 								{% endif %}
 							{% endif %}
 							{% if entreprise.status == "pre_avis_entreprise" %}
