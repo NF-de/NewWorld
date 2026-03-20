@@ -79,39 +79,51 @@
 				{% endif %}
 			</div>
 			<form method="post" action="{{ path('app_dashboard_update_entreprise') }}">
-				<div>
-					<label>Nom entreprise :</label>
-					<input type="text" name="nom" value="{{ entreprise.nom }}" required>
-				</div>
-				<div>
-					<label>Email :</label>
-					<input type="email" name="email" value="{{ entreprise.email }}">
-				</div>
-				<div>
-					<label>Numéro de téléphone :</label>
-					<input type="text" name="telephone" value="{{ entreprise.telephone }}">
-				</div>
-				<div>
-					<label>Adresse :</label>
-					<input type="text" name="adresse" value="{{ entreprise.adresse }}">
-				</div>
-				<div>
-					<label>Ville :</label>
-					<input type="text" name="ville" value="{{ entreprise.ville }}">
-				</div>
-				<div>
-					<label>Code postal :</label>
-					<input type="text" name="codePostal" value="{{ entreprise.codePostal }}">
-				</div>
-				<div>
-					<label>Numéro SIRET :</label>
-					<input type="text" name="siret" value="{{ entreprise.siret }}">
-				</div>
-				<button type="submit" class="btn btn-success mt-2">Enregistrer</button>
-			</form>
-		</div>
-		{% endif %}
-	</div>
+				{% if entreprise.status == "archive" %}
+        <div class="info-display mt-3">
+            <p><strong>Nom entreprise :</strong> {{ entreprise.nom }}</p>
+            <p><strong>Email :</strong> {{ entreprise.email }}</p>
+            <p><strong>Numéro de téléphone :</strong> {{ entreprise.telephone }}</p>
+            <p><strong>Adresse :</strong> {{ entreprise.adresse }}</p>
+            <p><strong>Ville :</strong> {{ entreprise.ville }} ({{ entreprise.codePostal }})</p>
+            <p><strong>Numéro SIRET :</strong> {{ entreprise.siret }}</p>
+            <div class="alert alert-info">Cette entreprise est archivée. Les informations ne sont plus modifiables.</div>
+        </div>
+    {% else %}
+        <form method="post" action="{{ path('app_dashboard_update_entreprise') }}">
+            <div>
+                <label>Nom entreprise :</label>
+                <input type="text" name="nom" value="{{ entreprise.nom }}" required>
+            </div>
+            <div>
+                <label>Email :</label>
+                <input type="email" name="email" value="{{ entreprise.email }}">
+            </div>
+            <div>
+                <label>Numéro de téléphone :</label>
+                <input type="text" name="telephone" value="{{ entreprise.telephone }}">
+            </div>
+            <div>
+                <label>Adresse :</label>
+                <input type="text" name="adresse" value="{{ entreprise.adresse }}">
+            </div>
+            <div>
+                <label>Ville :</label>
+                <input type="text" name="ville" value="{{ entreprise.ville }}">
+            </div>
+            <div>
+                <label>Code postal :</label>
+                <input type="text" name="codePostal" value="{{ entreprise.codePostal }}">
+            </div>
+            <div>
+                <label>Numéro SIRET :</label>
+                <input type="text" name="siret" value="{{ entreprise.siret }}">
+            </div>
+            <button type="submit" class="btn btn-success mt-2">Enregistrer</button>
+        </form>
+    {% endif %}
+</div>
+{% endif %}
 
 	<!-- Footer -->
 	<div class="dashboard-footer mt-3">
