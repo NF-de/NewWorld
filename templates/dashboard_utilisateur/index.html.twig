@@ -54,20 +54,25 @@
 				{% endif %}
 				{% if entreprise.status == "non_valide" %}
 				{% if entreprise.causeRefus == "demande"%}
-				<p class="badge danger">Statut : Non validé. Les informations relatives à votre entreprise comportent des erreurs ou des incohérences qui ne permettent pas la validation de votre dossier.</p>
+				<p class="badge danger">Statut : Non validé. Les informations relatives à votre entreprise comportent
+					des erreurs ou des incohérences qui ne permettent pas la validation de votre dossier.</p>
 				{% endif %}
 				{% if entreprise.causeRefus == "qualite"%}
-				<p class="badge danger">Statut : Non validé. Votre dossier présente des insuffisances concernant les protocoles de contrôle qualité requis.</p>
+				<p class="badge danger">Statut : Non validé. Votre dossier présente des insuffisances concernant les
+					protocoles de contrôle qualité requis.</p>
 				{% endif %}
 				{% endif %}
 				{% if entreprise.status == "pre_avis_entreprise" %}
 				<p class="badge warning">Status de l'entreprise : Pré Avis</p>
 				{% endif %}
 				{% if entreprise.status == "pre_avis_newworld" %}
-				<p class="badge warning">Status de l'entreprise : Pré Avis</p>
+				<p class="badge warning">Status de l'entreprise : Pré Avis initié par New World</p>
 				{% endif %}
 				{% if entreprise.status == "attente" %}
 				<p class="badge inactive">Status de l'entreprise : En attente</p>
+				{% endif %}
+				{% if entreprise.status == "attente_qualite" %}
+				<p class="badge inactive">Status de l'entreprise : En attente de vérification de qualité</p>
 				{% endif %}
 				{% if entreprise.status == "archive" %}
 				<p class="badge inactive">Status de l'entreprise : Archivé</p>
