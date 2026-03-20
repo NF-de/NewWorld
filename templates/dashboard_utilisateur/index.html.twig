@@ -17,6 +17,7 @@
 			class="dashboard-subcontainer">
 			<!-- Onglets -->
 			<div class="tabs">
+				<a class="tab-button home" href="/">Home</a>
 				<button class="tab-button active user" onclick="openTab('utilisateur')">Utilisateur</button>
 				{% if entreprise %}
 					<button class="tab-button entreprise" onclick="openTab('entreprise')">Entreprise</button>
@@ -57,11 +58,11 @@
 							{% if entreprise.status == "non_valide" %}
 								{% if entreprise.causeRefus == "demande"%}
 									<p class="badge danger">Statut : Non validé. Les informations relatives à votre entreprise comportent
-																																																																																																																																																																																														des erreurs ou des incohérences qui ne permettent pas la validation de votre dossier.</p>
+																																																																																																																																																																																																																																																des erreurs ou des incohérences qui ne permettent pas la validation de votre dossier.</p>
 								{% endif %}
 								{% if entreprise.causeRefus == "qualite"%}
 									<p class="badge danger">Statut : Non validé. Votre dossier présente des insuffisances concernant les
-																																																																																																																																																																																														protocoles de contrôle qualité requis.</p>
+																																																																																																																																																																																																																																																protocoles de contrôle qualité requis.</p>
 								{% endif %}
 							{% endif %}
 							{% if entreprise.status == "pre_avis_entreprise" %}
