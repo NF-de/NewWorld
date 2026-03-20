@@ -44,7 +44,8 @@ class LogCrudController extends AbstractCrudController
             TextField::new('table_concernee')
                 ->hideOnForm(),
             TimeField::new('created_at')
-                ->hideOnForm(),
+                ->hideOnForm()
+                ->setFormat('Y-m-d H:i:s'),
             AssociationField::new('user')
                 ->setLabel("Utilisateur")
                 ->setFormTypeOption(
