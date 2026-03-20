@@ -3,8 +3,12 @@
 {% block title %}Bienvenue sur NewWorld
 {% endblock %}
 
-{% block body %}
+{% block stylesheets %}
+	{{ parent() }}
 	<link href="{{ asset('styles/home.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
 	<div class="navbar">
 		<a href="/" class="logo">NewWorld</a>
 		<div class="nav-links">

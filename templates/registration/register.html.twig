@@ -1,40 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}Inscription
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('styles/login.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
 
 {% block body %}
-    <link href="{{ asset('styles/login.css') }}" type="text/css" rel="stylesheet"/>
 
-    <h1>Inscription</h1>
+	<h1>Inscription</h1>
 
-    {# On garde la structure <form> pour que le CSS cible le conteneur blanc #}
-    {{ form_start(registrationForm) }}
+	{# On garde la structure <form> pour que le CSS cible le conteneur blanc #}
+	{{ form_start(registrationForm) }}
 
-        {# On passe des 'attr' pour que les inputs ressemblent à ceux du login #}
-        {{ form_widget(registrationForm.nom, {'attr': {'placeholder': 'Nom'}}) }}
-        {{ form_widget(registrationForm.prenom, {'attr': {'placeholder': 'Prénom'}}) }}
-        {{ form_widget(registrationForm.email, {'attr': {'placeholder': 'Email'}}) }}
-        {{ form_widget(registrationForm.plainPassword, {'attr': {'placeholder': 'Mot de passe'}}) }}
+	{# On passe des 'attr' pour que les inputs ressemblent à ceux du login #}
+	{{ form_widget(registrationForm.nom, {'attr': {'placeholder': 'Nom'}}) }}
+	{{ form_widget(registrationForm.prenom, {'attr': {'placeholder': 'Prénom'}}) }}
+	{{ form_widget(registrationForm.email, {'attr': {'placeholder': 'Email'}}) }}
+	{{ form_widget(registrationForm.plainPassword, {'attr': {'placeholder': 'Mot de passe'}}) }}
 
-        {# Section spécifique pour la checkbox #}
-        <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #555;">
-            {{ form_widget(registrationForm.agreeTerms) }}
-            <span>J’accepte les conditions</span>
-        </div>
+	{# Section spécifique pour la checkbox #}
+	<div style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #555;">
+		{{ form_widget(registrationForm.agreeTerms) }}
+		<span>J’accepte les conditions</span>
+	</div>
 
-        {# Affiche les erreurs globales s'il y en a #}
-        {{ form_errors(registrationForm) }}
+	{# Affiche les erreurs globales s'il y en a #}
+	{{ form_errors(registrationForm) }}
 
-        {# Le bouton profitera du style 'button' de ton CSS #}
-        <button type="submit">S'inscrire</button>
+	{# Le bouton profitera du style 'button' de ton CSS #}
+	<button type="submit">S'inscrire</button>
 
-        {# form_rest génère les champs cachés comme le token CSRF #}
-        {{ form_rest(registrationForm) }}
+	{# form_rest génère les champs cachés comme le token CSRF #}
+	{{ form_rest(registrationForm) }}
 
-    {{ form_end(registrationForm) }}
+	{{ form_end(registrationForm) }}
 
-    <p>
-        Déjà un compte ?
-        <a href="{{ path('app_login') }}">Se connecter</a>
-    </p>
+	<p>
+		Déjà un compte ?
+		<a href="{{ path('app_login') }}">Se connecter</a>
+	</p>
 {% endblock %}
