@@ -5,52 +5,56 @@
 
 
 {% block main %}
-	{% if partenaires %}
-		{% for partenaire in partenaires %}
-			<div class="card card-body m-2 d-flex">
-				<div class="d-flex justify-content-between">
-					<div>
-						<h4 class="card-title">{{ partenaire.nom }}</h4>
-						<div class="d-flex">
-							<p class="mx-1">{{ partenaire.adresse }}</p>
-							<p class="mx-1">{{ partenaire.codePostal }}</p>
-							<p class="mx-1">{{ partenaire.ville }}</p>
-						</div>
-						<div class="d-flex">
-							<div class="mx-2">
-								<h5>Date de début de contrat</h5>
-								<p>{{ partenaire.dateValidation|date('Y-m-d H:i:s') }}</p>
-							</div>
-							<div class="mx-2">
-								<h5>Date de fin de contrat</h5>
-								<p>{{ partenaire.dateFin|date('Y-m-d H:i:s') }}</p>
-							</div>
-						</div>
-
-						<a href="/admin/entreprise/{{ partenaire.id }}">
-							<button class="btn btn-primary">
-								Voir l'entreprise
-							</button>
-						</a>
-						{% if partenaire.status == "valide"%}
-							<a href="/archivageNewWorld/{{ partenaire.id }}">
-								<button class="btn btn-danger mx-2">Faire une demande de résiliation de contrat</button>
-							</a>
-						{% endif %}
-					</div>
-					{% if partenaire.status == "valide" %}
-						<span style="height: fit-content;" class="p-1 badge text-bg-success">Validé</span>
-					{% endif %}
-					{% if partenaire.status == "pre_avis_entreprise" %}
-						<span style="height: fit-content;" class="p-1 badge text-bg-warning">Pré Avis</span>
-					{% endif %}
-					{% if partenaire.status == "pre_avis_newworld" %}
-						<span style="height: fit-content;" class="p-1 badge text-bg-warning">Pré Avis</span>
+{% if partenaires %}
+{% for partenaire in partenaires %}
+<div class="card card-body m-2 d-flex">
+	<div class="d-flex justify-content-between">
+		<div>
+			<h4 class="card-title">{{ partenaire.nom }}</h4>
+			<div class="d-flex">
+				<p class="mx-1">{{ partenaire.adresse }}</p>
+				<p class="mx-1">{{ partenaire.codePostal }}</p>
+				<p class="mx-1">{{ partenaire.ville }}</p>
+			</div>
+			<div class="d-flex">
+				<div class="mx-2">
+					<h5>Date de début de contrat</h5>
+					<p>{{ partenaire.dateValidation|date('Y-m-d H:i:s') }}</p>
+				</div>
+				<div class="mx-2">
+					<h5>Date de fin de contrat</h5>
+					{% if partenaire.dateFin %}
+					<p>{{ partenaire.dateFin|date('Y-m-d H:i:s') }}</p>
+					{% else %}
+					<p>Aucune demande de résiliation en cours</p>
 					{% endif %}
 				</div>
 			</div>
-		{% endfor %}
-	{% else %}
-		<p>Aucune entreprise validé</p>
-	{% endif %}
+
+			<a href="/admin/entreprise/{{ partenaire.id }}">
+				<button class="btn btn-primary">
+					Voir l'entreprise
+				</button>
+			</a>
+			{% if partenaire.status == "valide"%}
+			<a href="/archivageNewWorld/{{ partenaire.id }}">
+				<button class="btn btn-danger mx-2">Faire une demande de résiliation de contrat</button>
+			</a>
+			{% endif %}
+		</div>
+		{% if partenaire.status == "valide" %}
+		<span style="height: fit-content;" class="p-1 badge text-bg-success">Validé</span>
+		{% endif %}
+		{% if partenaire.status == "pre_avis_entreprise" %}
+		<span style="height: fit-content;" class="p-1 badge text-bg-warning">Pré Avis</span>
+		{% endif %}
+		{% if partenaire.status == "pre_avis_newworld" %}
+		<span style="height: fit-content;" class="p-1 badge text-bg-warning">Pré Avis</span>
+		{% endif %}
+	</div>
+</div>
+{% endfor %}
+{% else %}
+<p>Aucune entreprise validé</p>
+{% endif %}
 {% endblock %}
