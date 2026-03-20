@@ -120,17 +120,23 @@ class EntrepriseCrudController extends AbstractCrudController
                 return $entity->getStatus() === 'attente';
             });
         return $actions
-            // On modifie l'action DELETE existante pour ajouter la confirmation
-            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
-                return $action->setHtmlAttributes([
-                ]);
-            })
-            // On fait de même pour la page DETAIL si tu l'utilises
-            ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action) {
-                return $action->setHtmlAttributes([
-                ]);
-            })
-            ->setPermission(Action::EDIT, 'ROLE_ADMIN')   // Seul l'ADMIN peut éditer
+        // 1. Cacher MODIFIER si archivé
+        ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
+            return $action->displayIf(fn($entity) => $entity->getStatus() !== 'archive');
+        })
+        ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action) {
+            return $action->displayIf(fn($entity) => $entity->getStatus() !== 'archive');
+        })
+
+        // 2. Cacher SUPPRIMER si archivé
+        ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
+            return $action->displayIf(fn($entity) => $entity->getStatus() !== 'archive');
+        })
+        ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action) {
+            return $action->displayIf(fn($entity) => $entity->getStatus() !== 'archive');
+        })
+
+            ->setPermission(Action::EDIT, 'ROLE_SECRETAIRE')   // Seul l'ADMIN peut éditer
             ->setPermission(Action::DELETE, 'ROLE_DIRECTOR') // Seul Directeur et l'ADMIN peut supprimer
             ->setPermission('faire_preavis', 'ROLE_DIRECTOR')
             ->add(Crud::PAGE_INDEX, $actionPreavis)
