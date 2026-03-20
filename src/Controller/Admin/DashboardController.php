@@ -58,6 +58,8 @@ class DashboardController extends AbstractDashboardController
         $nombreEntreprisesAttente = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'attente']);
         $nombreEntreprisesArchive = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'archive']);
         $nombreEntreprisesAttenteQualite = $this->entityManager->getRepository(Entreprise::class)->count(['status' => 'attente_qualite']);
+        $nombreUtilisateur = $this->entityManager->getRepository(User::class)->count();
+        $nombreEntreprise = $this->entityManager->getRepository(Entreprise::class)->count();
 
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
         if ($this->isGranted('ROLE_DIRECTOR')) {
@@ -83,13 +85,15 @@ class DashboardController extends AbstractDashboardController
         // Section Gestion
         if ($this->isGranted('ROLE_ADMIN')) {
             yield MenuItem::section('Gestion Utilisateurs');
-            yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
+            yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class)
+                ->setBadge($nombreUtilisateur, 'badge bg-primary');
         }
         // Section Administration (avec vérification de rôle)
         yield MenuItem::section('Administration système');
 
         // Ce lien mène à la LISTE (Index), pas à l'édition, donc il est correct
-        yield MenuItem::linkToCrud('Entreprises', 'fas fa-building', Entreprise::class);
+        yield MenuItem::linkToCrud('Entreprises', 'fas fa-building', Entreprise::class)
+            ->setBadge($nombreEntreprise, 'badge bg-primary');
 
         // Vérification de rôle pour les logs
         if ($this->isGranted('ROLE_DIRECTOR')) {
