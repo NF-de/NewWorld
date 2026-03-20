@@ -1,6 +1,6 @@
 /* Onglets attachés au contenu */
 body {
-    font-family: 'Merriweather', serif;
+    font-family: 'Lexend';
 }
 
 .row {
@@ -26,21 +26,25 @@ body {
 .badge.active {
     background-color: #9ce18c;
     color: #2e570f;
+    border: 1px solid #2e570f;
 }
 
 .badge.warning {
     background-color: #e1de8c;
     color: #56570f;
+    border: 1px solid #56570f;
 }
 
 .badge.danger {
     background-color: #e18c8c;
     color: #570f0f;
+    border: 1px solid #570f0f;
 }
 
 .badge.inactive {
     background-color: #bdbdbd;
     color: #393939;
+    border: 1px solid #393939;
 }
 
 .tabs {
@@ -53,7 +57,7 @@ body {
     padding: 10px 20px;
     border: 1px solid #acacac;
     border-bottom: none;
-    background: #f8f8f8;
+    background: #ffffff;
     cursor: pointer;
     border-radius: 5px 5px 0 0;
     transition: all 0.3s ease;
@@ -174,6 +178,7 @@ body {
 }
 /* Bouton Enregistrer dans les formulaires */
 .tab-pane form button[type="submit"] {
+    font-family: 'Lexend';
     background-color: #000;
     color: #fff;
     border: none;
