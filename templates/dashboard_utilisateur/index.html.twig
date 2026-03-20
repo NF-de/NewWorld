@@ -58,11 +58,11 @@
 							{% if entreprise.status == "non_valide" %}
 								{% if entreprise.causeRefus == "demande"%}
 									<p class="badge danger">Statut : Non validé. Les informations relatives à votre entreprise comportent
-																																																																																																																																																																																																																																																										des erreurs ou des incohérences qui ne permettent pas la validation de votre dossier.</p>
+																																																																																																																																																																																																																																																																														des erreurs ou des incohérences qui ne permettent pas la validation de votre dossier.</p>
 								{% endif %}
 								{% if entreprise.causeRefus == "qualite"%}
 									<p class="badge danger">Statut : Non validé. Votre dossier présente des insuffisances concernant les
-																																																																																																																																																																																																																																																										protocoles de contrôle qualité requis.</p>
+																																																																																																																																																																																																																																																																														protocoles de contrôle qualité requis.</p>
 								{% endif %}
 							{% endif %}
 							{% if entreprise.status == "pre_avis_entreprise" %}
@@ -117,7 +117,7 @@
 									</div>
 									<div>
 										<label>Numéro de téléphone :</label>
-										<input type="text" name="telephone" value="{{ entreprise.telephone }}">
+										<input type="tel" name="telephone" value="{{ entreprise.telephone }}" maxlength="10" pattern="\d{10}" inputmode="tel" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
 									</div>
 									<div>
 										<label>Adresse :</label>
@@ -129,11 +129,11 @@
 									</div>
 									<div>
 										<label>Code postal :</label>
-										<input type="text" name="codePostal" value="{{ entreprise.codePostal }}">
+										<input type="text" name="codePostal" value="{{ entreprise.codePostal }}" maxlength="5" pattern="\d{5}" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
 									</div>
 									<div>
 										<label>Numéro SIRET :</label>
-										<input type="text" name="siret" value="{{ entreprise.siret }}">
+										<input type="text" name="siret" value="{{ entreprise.siret }}" maxlength="14" pattern="\d{14}" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
 									</div>
 									<button type="submit" class="btn btn-success mt-2">Enregistrer</button>
 								</form>
