@@ -101,6 +101,7 @@ class DashboardController extends AbstractDashboardController
         }
         // Section Liens Externes
         yield MenuItem::section(); // Ligne de séparation
+        yield MenuItem::linkToRoute('Retour au site', 'fas fa-arrow-left', 'app_main');
         yield MenuItem::linkToLogout('Déconnexion', 'fas fa-sign-out-alt');
     }
 
