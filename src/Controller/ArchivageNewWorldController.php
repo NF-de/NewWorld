@@ -44,14 +44,14 @@ final class ArchivageNewWorldController extends AbstractController
                 (int) $dateValidation->format('m'),
                 (int) $dateValidation->format('d')
             );
-            //$timeEndContract = (clone $timeEndContractActualYear)->modify('+1 year');
-            $timeToCompare = (clone $timeEndContractActualYear)->modify('-6 months');
+            $timeEndContract = (clone $timeEndContractActualYear)->modify('+1 year');
+            $timeToCompare = (clone $timeEndContract)->modify('-6 months');
 
             if ($currentTime < $timeToCompare) {
                 if ($entrepriseToUse->getStatus() != "pre_avis_entreprise" || $entrepriseToUse->getStatus() != "archive" || $entrepriseToUse->getStatus() != "pre_avis_newworld") {
                     $entrepriseToUse->setStatus("pre_avis_newworld");
                     $entrepriseToUse->setDatePreAvis(new DateTime());
-                    $dateFin = $timeEndContractActualYear;
+                    $dateFin = $timeEndContract;
                     $entrepriseToUse->setDateFin($dateFin);
                     $em->flush();
                 } else {
@@ -61,7 +61,7 @@ final class ArchivageNewWorldController extends AbstractController
                 if ($entrepriseToUse->getStatus() != "pre_avis_entreprise" || $entrepriseToUse->getStatus() != "archive" || $entrepriseToUse->getStatus() != "pre_avis_newworld") {
                     $entrepriseToUse->setStatus("pre_avis_newworld");
                     $entrepriseToUse->setDatePreAvis(new DateTime());
-                    $dateFin = $timeEndContractActualYear->modify("+1 year");
+                    $dateFin = $timeEndContract->modify("+1 year");
                     $entrepriseToUse->setDateFin($dateFin);
                     $em->flush();
                 } else {

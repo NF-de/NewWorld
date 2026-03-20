@@ -1,6 +1,7 @@
 /* Onglets attachés au contenu */
 body {
     font-family: 'Lexend';
+    background-color: #f0f0f0;
 }
 
 .row {
@@ -116,7 +117,8 @@ body {
 .dashboard-footer .btn {
     padding: 10px 18px;
     text-decoration: none;
-    border-radius: 25px;  /* arrondi moderne */
+    border-radius: 25px;
+    /* arrondi moderne */
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -125,7 +127,8 @@ body {
 
 /* Couleurs des boutons */
 .btn-danger {
-    background: #e74c3c; /* rouge vif pour déconnexion */
+    background: #e74c3c;
+    /* rouge vif pour déconnexion */
     color: #fff;
 }
 
@@ -134,7 +137,8 @@ body {
 }
 
 .btn-primary {
-    background: #3498db; /* bleu pour formulaire entreprise */
+    background: #3498db;
+    /* bleu pour formulaire entreprise */
     color: #fff;
 }
 
@@ -143,7 +147,8 @@ body {
 }
 
 .btn-secondary {
-    background: #95a5a6; /* gris pour archivage */
+    background: #95a5a6;
+    /* gris pour archivage */
     color: #fff;
 }
 
@@ -174,8 +179,9 @@ body {
 .tab-pane form input:focus {
     outline: none;
     border-color: #000;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.08);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
 }
+
 /* Bouton Enregistrer dans les formulaires */
 .tab-pane form button[type="submit"] {
     font-family: 'Lexend';
@@ -194,6 +200,7 @@ body {
 .tab-pane form button[type="submit"]:hover {
     background-color: #333;
 }
+
 /* Responsive */
 @media (max-width: 768px) {
     .tabs {

@@ -30,13 +30,13 @@ final class CheckArchivageNewWorldController extends AbstractController
         }
 
         //Récupération de toutes les entreprises
-        $entreprises = $em->getRepository(Entreprise::class)->findAll();
+        $entreprises = $em->getRepository(Entreprise::class)->findBy(["status" => "pre_avis_newworld"]);
         if ($entreprises) {
             foreach ($entreprises as $entreprise) {
                 $currentTime = new DateTime();
                 $timeToCompare = $entreprise->getDateFin();
 
-                if ($timeToCompare <= $currentTime && $entreprise->getStatus() == "pre_avis_newWorld") {
+                if ($timeToCompare <= $currentTime && $entreprise->getStatus() == "pre_avis_newworld") {
                     $entreprise->setStatus('archive');
                     $entreprise->setDateArchivage($currentTime);
                     $em->flush();

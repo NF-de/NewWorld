@@ -22,7 +22,11 @@
 						</div>
 						<div class="mx-2">
 							<h5>Date de fin de contrat</h5>
-							{# <p>{{ partenaire.dateValidation|date('Y-m-d H:i:s') }}</p> #}
+							{% if partenaire.dateFin %}
+								<p>{{ partenaire.dateFin|date('Y-m-d H:i:s') }}</p>
+							{% else %}
+								<p>Aucune demande de résiliation en cours</p>
+							{% endif %}
 						</div>
 					</div>
 				</div>
