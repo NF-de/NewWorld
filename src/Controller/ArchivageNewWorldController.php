@@ -39,6 +39,7 @@ final class ArchivageNewWorldController extends AbstractController
 
             $dateValidation = $entrepriseToUse->getDateValidation();
 
+            // Mise à jour de la date de validation à l'année actuelle
             $timeEndContractActualYear = (clone $dateValidation)->setDate(
                 (int) date('Y'),
                 (int) $dateValidation->format('m'),
@@ -48,6 +49,7 @@ final class ArchivageNewWorldController extends AbstractController
             $timeToCompare = (clone $timeEndContract)->modify('-6 months');
 
             if ($currentTime < $timeToCompare) {
+                //premier cas une la date actuelle est avant le pré avis
                 if ($entrepriseToUse->getStatus() != "pre_avis_entreprise" || $entrepriseToUse->getStatus() != "archive" || $entrepriseToUse->getStatus() != "pre_avis_newworld") {
                     $entrepriseToUse->setStatus("pre_avis_newworld");
                     $entrepriseToUse->setDatePreAvis(new DateTime());
@@ -58,6 +60,7 @@ final class ArchivageNewWorldController extends AbstractController
                     $this->addFlash("error", "L'entreprise est déjà en pré avis");
                 }
             } else {
+                //deuxième cas la date actuelle dépasse le préavis donc le contrat dure jusqu'a l'anné prochaine
                 if ($entrepriseToUse->getStatus() != "pre_avis_entreprise" || $entrepriseToUse->getStatus() != "archive" || $entrepriseToUse->getStatus() != "pre_avis_newworld") {
                     $entrepriseToUse->setStatus("pre_avis_newworld");
                     $entrepriseToUse->setDatePreAvis(new DateTime());
