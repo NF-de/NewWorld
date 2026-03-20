@@ -66,6 +66,7 @@ class EntrepriseCrudController extends AbstractCrudController
                         'pre_avis_newworld' => '<span class="badge text-bg-warning">Pré avis</span>',
                         'archive' => '<span class="badge text-bg-secondary">Archivé</span>',
                         'attente' => '<span class="badge text-bg-secondary">En attente</span>',
+                        'attente_qualite' => '<span class="badge text-bg-secondary">En attente de contrôle qualité</span>',
                         'non_valide' => '<span class="badge text-bg-danger">Refusé</span>',
                         default => '<span class="badge text-bg-secondary">Inconnu</span>',
                     };
@@ -120,21 +121,21 @@ class EntrepriseCrudController extends AbstractCrudController
                 return $entity->getStatus() === 'attente';
             });
         return $actions
-        // 1. Cacher MODIFIER si archivé
-        ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
-            return $action->displayIf(fn($entity) => $entity->getStatus() !== 'archive');
-        })
-        ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action) {
-            return $action->displayIf(fn($entity) => $entity->getStatus() !== 'archive');
-        })
+            // 1. Cacher MODIFIER si archivé
+            ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
+                return $action->displayIf(fn($entity) => $entity->getStatus() !== 'archive');
+            })
+            ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action) {
+                return $action->displayIf(fn($entity) => $entity->getStatus() !== 'archive');
+            })
 
-        // 2. Cacher SUPPRIMER si archivé
-        ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
-            return $action->displayIf(fn($entity) => $entity->getStatus() !== 'archive');
-        })
-        ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action) {
-            return $action->displayIf(fn($entity) => $entity->getStatus() !== 'archive');
-        })
+            // 2. Cacher SUPPRIMER si archivé
+            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
+                return $action->displayIf(fn($entity) => $entity->getStatus() !== 'archive');
+            })
+            ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action) {
+                return $action->displayIf(fn($entity) => $entity->getStatus() !== 'archive');
+            })
 
             ->setPermission(Action::EDIT, 'ROLE_SECRETAIRE')   // Seul l'ADMIN peut éditer
             ->setPermission(Action::DELETE, 'ROLE_DIRECTOR') // Seul Directeur et l'ADMIN peut supprimer
