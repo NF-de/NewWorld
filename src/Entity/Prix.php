@@ -1,0 +1,82 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\PrixRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: PrixRepository::class)]
+class Prix
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\ManyToOne(inversedBy: 'prix')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Produit $produit = null;
+
+    #[ORM\Column]
+    private ?float $valeurHT = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $valeurTTC = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TVA $tva = null;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getProduit(): ?Produit
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(?Produit $produit): static
+    {
+        $this->produit = $produit;
+
+        return $this;
+    }
+
+    public function getValeurHT(): ?float
+    {
+        return $this->valeurHT;
+    }
+
+    public function setValeurHT(float $valeurHT): static
+    {
+        $this->valeurHT = $valeurHT;
+
+        return $this;
+    }
+
+    public function getValeurTTC(): ?float
+    {
+        return $this->valeurTTC;
+    }
+
+    public function setValeurTTC(?float $valeurTTC): static
+    {
+        $this->valeurTTC = $valeurTTC;
+
+        return $this;
+    }
+
+    public function getTva(): ?TVA
+    {
+        return $this->tva;
+    }
+
+    public function setTva(?TVA $tva): static
+    {
+        $this->tva = $tva;
+
+        return $this;
+    }
+}

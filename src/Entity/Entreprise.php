@@ -61,9 +61,16 @@ class Entreprise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $causeRefus = null;
 
+    /**
+     * @var Collection<int, Produit>
+     */
+    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'entreprise', orphanRemoval: true)]
+    private Collection $produits;
+
     public function __construct()
     {
         $this->logs = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -260,6 +267,36 @@ class Entreprise
     public function setCauseRefus(?string $causeRefus): static
     {
         $this->causeRefus = $causeRefus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Produit>
+     */
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
+    public function addProduit(Produit $produit): static
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits->add($produit);
+            $produit->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(Produit $produit): static
+    {
+        if ($this->produits->removeElement($produit)) {
+            // set the owning side to null (unless already changed)
+            if ($produit->getEntreprise() === $this) {
+                $produit->setEntreprise(null);
+            }
+        }
 
         return $this;
     }
