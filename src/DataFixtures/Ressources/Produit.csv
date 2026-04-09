@@ -1,0 +1,5 @@
+id,entreprise_id,categorie_id,name,description,quantite,unit_type,created_at
+1,1,1,Pommes Gala,Pommes rouges croquantes,500,KG,2025-11-28 10:00:00
+2,1,1,Carottes Bio,Carottes du jardin de l'ouest,200,KG,2025-11-28 10:00:00
+3,2,2,Yaourt Nature,Pack de 12 yaourts onctueux,150,UNIT,2025-11-28 10:00:00
+4,3,4,Farine T45,Farine de blé pour pâtisserie,100,KG,2025-11-28 10:00:00

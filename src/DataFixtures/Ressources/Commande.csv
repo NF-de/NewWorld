@@ -1,0 +1,4 @@
+id,user_id,adresse_id,status,created_at,date_validation
+1,1,1,valide,2026-02-01 10:00:00,2026-02-01 11:30:00
+2,2,2,livraison,2026-02-02 09:00:00,2026-02-02 10:00:00
+3,3,3,panier,2026-02-03 15:00:00,

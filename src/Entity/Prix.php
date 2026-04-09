@@ -23,9 +23,8 @@ class Prix
     #[ORM\Column(nullable: true)]
     private ?float $valeurTTC = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?TVA $tva = null;
+    #[ORM\Column]
+    private ?float $valeur_tva = null;
 
     public function getId(): ?int
     {
@@ -68,15 +67,16 @@ class Prix
         return $this;
     }
 
-    public function getTva(): ?TVA
+    public function getValeurTva(): ?float
     {
-        return $this->tva;
+        return $this->valeur_tva;
     }
 
-    public function setTva(?TVA $tva): static
+    public function setValeurTva(float $valeur_tva): static
     {
-        $this->tva = $tva;
+        $this->valeur_tva = $valeur_tva;
 
         return $this;
     }
+
 }

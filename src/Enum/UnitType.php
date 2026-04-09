@@ -3,6 +3,7 @@ namespace App\Enum;
 
 enum UnitType: string
 {
-    case UNIT = 'unit';
+    case UNIT = 'UNIT';
+    case KG = 'KG';
     case WEIGHT = 'weight';
 }

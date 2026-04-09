@@ -1,0 +1,5 @@
+id,commande_id,produit_id,count
+1,1,1,5
+2,1,2,10
+3,2,3,2
+4,3,4,20

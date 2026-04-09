@@ -180,7 +180,7 @@ class Produit
         $this->description = $description;
 
         return $this;
-    }
+    }   
 
     public function getQuantite(): ?int
     {

@@ -29,7 +29,6 @@ class EntrepriseFixture extends Fixture implements DependentFixtureInterface
 
             $entreprise = new Entreprise();
 
-            // 🔗 User récupéré via les références
             $entreprise->setUser(
                 $this->getReference('user_' . $data['user_id'], User::class)
             );
@@ -59,6 +58,7 @@ class EntrepriseFixture extends Fixture implements DependentFixtureInterface
             );
 
             $manager->persist($entreprise);
+            $this->addReference('entreprise_' . $data['user_id'], $entreprise);
         }
 
         $manager->flush();

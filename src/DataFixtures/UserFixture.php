@@ -3,11 +3,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use App\Entity\Adresse;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserFixture extends Fixture
+class UserFixture extends Fixture implements DependentFixtureInterface
 {
     private UserPasswordHasherInterface $passwordHasher;
 
@@ -18,44 +20,60 @@ class UserFixture extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $file = __DIR__ . '/Ressources/User.csv'; // Chemin vers ton CSV
+        $file = __DIR__ . '/Ressources/User.csv';
+
         if (!file_exists($file)) {
-            throw new \Exception("CSV file not found: $file");
+            throw new \Exception("Fichier CSV introuvable : $file");
         }
 
         $rows = array_map('str_getcsv', file($file));
-        $header = array_shift($rows); // enlève l'entête
+        $header = array_shift($rows);
 
         foreach ($rows as $row) {
             $data = array_combine($header, $row);
 
             $user = new User();
             $user->setEmail($data['email']);
+            $user->setNom($data['nom'] ?? null);
+            $user->setPrenom($data['prenom'] ?? null);
+            
+            // On transforme la chaîne "ROLE_ADMIN,ROLE_USER" en tableau
             $user->setRoles(explode(',', $data['roles']));
-            $user->setNom($data['nom']);
 
-            // Hashage du mot de passe
+            // Hashage sécurisé du mot de passe
             $user->setPassword(
                 $this->passwordHasher->hashPassword($user, $data['password'])
             );
 
-            // Dates
-            $user->setCreatedAt(
-                !empty($data['created_at']) ? new \DateTime($data['created_at']) : new \DateTime()
-            );
-            $user->setUpdatedAt(
-                !empty($data['updated_at']) ? new \DateTime($data['updated_at']) : new \DateTime()
-            );
+            // Gestion du last_login (nullable)
+            if (!empty($data['last_login'])) {
+                $user->setLastLogin(new \DateTime($data['last_login']));
+            }
 
+            // Liaison OneToOne avec l'Adresse
+            // Note : Votre entité utilise le setter setAdresseId()
+            if (!empty($data['adresse_id'])) {
+                $user->setAdresseId(
+                    $this->getReference('adresse_' . $data['adresse_id'], Adresse::class)
+                );
+            }
 
-            // last_login nullable
-            $user->setLastLogin($data['last_login'] ? new \DateTime($data['last_login']) : null);
+            // Note : created_at et updated_at sont gérés automatiquement 
+            // par vos LifecycleCallbacks (onPrePersist) dans l'entité.
 
             $manager->persist($user);
-                        $this->addReference('user_' . $data['id'], $user);
 
+            // Création de la référence pour EntrepriseFixture ou CommandeFixture
+            $this->addReference('user_' . $data['id'], $user);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            AdresseFixture::class,
+        ];
     }
 }

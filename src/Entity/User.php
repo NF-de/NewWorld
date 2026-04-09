@@ -67,6 +67,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'User', orphanRemoval: true)]
     private Collection $commandes;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?adresse $adresse_id = null;
+
     public function __construct()
     {
         $this->logs = new ArrayCollection();
@@ -306,6 +309,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $commande->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAdresseId(): ?adresse
+    {
+        return $this->adresse_id;
+    }
+
+    public function setAdresseId(?adresse $adresse_id): static
+    {
+        $this->adresse_id = $adresse_id;
 
         return $this;
     }
