@@ -2,25 +2,32 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\LigneCommandeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LigneCommandeRepository::class)]
+#[ApiResource]
 class LigneCommande
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['commande:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['commande:read'])]
     private ?int $count = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?produit $produit_id = null;
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['commande:read'])]
+    private ?Produit $produit = null;
 
     #[ORM\ManyToOne(inversedBy: 'ligneCommandes')]
-    private ?commande $commande_id = null;
+    private ?Commande $commande = null;
 
     public function getId(): ?int
     {
@@ -39,27 +46,25 @@ class LigneCommande
         return $this;
     }
 
-    public function getProduitId(): ?produit
+    public function getProduit(): ?Produit
     {
-        return $this->produit_id;
+        return $this->produit;
     }
 
-    public function setProduitId(?produit $produit_id): static
+    public function setProduit(?Produit $produit): static
     {
-        $this->produit_id = $produit_id;
-
+        $this->produit = $produit;
         return $this;
     }
 
-    public function getCommandeId(): ?commande
+    public function getCommande(): ?Commande
     {
-        return $this->commande_id;
+        return $this->commande;
     }
 
-    public function setCommandeId(?commande $commande_id): static
+    public function setCommande(?Commande $commande): static
     {
-        $this->commande_id = $commande_id;
-
+        $this->commande = $commande;
         return $this;
     }
 }

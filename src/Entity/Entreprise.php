@@ -2,26 +2,34 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\EntrepriseRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
+#[ApiResource]
+#[ORM\HasLifecycleCallbacks]
 class Entreprise
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read'])]
     private ?string $ville = null;
 
     #[ORM\Column(length: 5)]
@@ -31,12 +39,15 @@ class Entreprise
     private ?string $siret = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read'])]
     private ?string $status = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 20)]
+    #[Groups(['produit:read'])]
     private ?string $telephone = null;
 
     #[ORM\Column(nullable: true)]
@@ -69,7 +80,6 @@ class Entreprise
 
     public function __construct()
     {
-        $this->logs = new ArrayCollection();
         $this->produits = new ArrayCollection();
     }
 

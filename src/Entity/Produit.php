@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Enum\UnitType;
 use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,11 +13,19 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => ['produit:read']]),
+        new GetCollection(normalizationContext: ['groups' => ['produit:read']])
+    ]
+)]
+#[ORM\HasLifecycleCallbacks]
 class Produit
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $id = null;
 
     /**
@@ -26,28 +38,36 @@ class Produit
      * @var Collection<int, Prix>
      */
     #[ORM\OneToMany(targetEntity: Prix::class, mappedBy: 'produit', orphanRemoval: true)]
+    #[Groups(['produit:read'])]
     private Collection $prix;
 
     #[ORM\ManyToOne(inversedBy: 'produits')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['produit:read'])]
+
     private ?Entreprise $entreprise = null;
 
     /**
      * @var Collection<int, Categorie>
      */
     #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'produits')]
+    #[Groups(['produit:read'])]
     private Collection $categorie;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read'])]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $quantite = null;
 
     #[ORM\Column(enumType: UnitType::class)]
+    #[Groups(['produit:read'])]
     private ?UnitType $unit_type = null;
 
     #[ORM\Column]

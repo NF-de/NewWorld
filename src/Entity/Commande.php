@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\CommandeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,15 +11,20 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['commande:read']],
+)]
 class Commande
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['commande:read'])]
     private ?int $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['commande:read'])]
     private ?Adresse $adresse = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
@@ -25,6 +32,7 @@ class Commande
     private ?User $User = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['commande:read'])]
     private ?string $status = null;
 
     /**
@@ -34,15 +42,18 @@ class Commande
     private Collection $Produit;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['commande:read'])]
     private ?\DateTime $created_at = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['commande:read'])]
     private ?\DateTime $date_validation = null;
 
     /**
      * @var Collection<int, LigneCommande>
      */
     #[ORM\OneToMany(targetEntity: LigneCommande::class, mappedBy: 'commande_id')]
+    #[Groups(['commande:read'])]
     private Collection $ligneCommandes;
 
     public function __construct()
@@ -152,7 +163,7 @@ class Commande
     {
         if (!$this->ligneCommandes->contains($ligneCommande)) {
             $this->ligneCommandes->add($ligneCommande);
-            $ligneCommande->setCommandeId($this);
+            $ligneCommande->setCommande($this);
         }
 
         return $this;
@@ -162,8 +173,8 @@ class Commande
     {
         if ($this->ligneCommandes->removeElement($ligneCommande)) {
             // set the owning side to null (unless already changed)
-            if ($ligneCommande->getCommandeId() === $this) {
-                $ligneCommande->setCommandeId(null);
+            if ($ligneCommande->getCommande() === $this) {
+                $ligneCommande->setCommande(null);
             }
         }
 

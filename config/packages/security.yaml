@@ -12,10 +12,31 @@ security:
     role_hierarchy:
         ROLE_ADMIN: ROLE_DIRECTOR
         ROLE_DIRECTOR: ROLE_SECRETAIRE
+        
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        # 1. Firewall pour la connexion API (récupérer le token)
+        login:
+            pattern: ^/api/login_check
+            stateless: true
+            provider: app_user_provider
+            json_login:
+                check_path: /api/login_check
+                username_path: username
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        # 2. Firewall pour sécuriser toutes les routes API
+        api:
+            pattern: ^/api
+            stateless: true
+            provider: app_user_provider
+            jwt: ~
+
+        # 3. Ton firewall actuel pour la partie Web (Admin)
         main:
             lazy: true
             provider: app_user_provider
@@ -26,20 +47,18 @@ security:
                 default_target_path: app_main
             logout:
                 path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
+        # Routes publiques
+        - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
+        - { path: ^/api/produits, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/categories, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/entreprises, roles: PUBLIC_ACCESS, methods: [GET] }
+        
+        # Routes protégées API
+        - { path: ^/api, roles: ROLE_CLIENT }        
+        # Routes Admin Web
         - { path: ^/admin, roles: ROLE_SECRETAIRE }
-
 when@test:
     security:
         password_hashers:

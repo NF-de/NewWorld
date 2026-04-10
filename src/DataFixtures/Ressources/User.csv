@@ -6,3 +6,4 @@ id,email,roles,password,nom,created_at,updated_at,last_login,prenom,adresse_id
 5,Claudine@newworld.fr,ROLE_DIRECTOR,azerty123,Claudine,2025-11-28 10:00:00,2025-11-28 10:00:00,,,5
 6,stephanie@newworld.fr,ROLE_SECRETAIRE,azerty123,Stéphanie,2025-11-28 10:00:00,2025-11-28 10:00:00,,,6
 7,admin@newworld.fr,ROLE_ADMIN,azerty123,Jean,2025-11-28 10:00:00,2025-11-28 10:00:00,,,7
+8,fialouxmateo@gmail.fr,ROLE_CLIENT,azerty123,Mateo,2025-11-28 10:00:00,2025-11-28 10:00:00,,,8

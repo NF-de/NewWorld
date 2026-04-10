@@ -2,27 +2,35 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\AdresseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdresseRepository::class)]
+#[ApiResource]
 class Adresse
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['produit:read', 'user:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read', 'user:read'])]
     private ?string $ville = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read', 'user:read'])]
     private ?string $pays = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read', 'user:read'])]
     private ?string $codePostal = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read', 'user:read'])]
     private ?string $rue = null;
 
     public function getId(): ?int

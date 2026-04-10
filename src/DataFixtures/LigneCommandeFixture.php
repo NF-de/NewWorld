@@ -29,12 +29,12 @@ class LigneCommandeFixture extends Fixture implements DependentFixtureInterface
             $ligne->setCount((int)$data['count']);
 
             // Liaison avec la Commande
-            $ligne->setCommandeId(
+            $ligne->setCommande(
                 $this->getReference('commande_' . $data['commande_id'], Commande::class)
             );
 
             // Liaison avec le Produit
-            $ligne->setProduitId(
+            $ligne->setProduit(
                 $this->getReference('produit_' . $data['produit_id'], Produit::class)
             );
 

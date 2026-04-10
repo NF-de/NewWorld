@@ -2,15 +2,19 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\PrixRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PrixRepository::class)]
+#[ApiResource]
 class Prix
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'prix')]
@@ -18,12 +22,15 @@ class Prix
     private ?Produit $produit = null;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?float $valeurHT = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['produit:read'])]
     private ?float $valeurTTC = null;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?float $valeur_tva = null;
 
     public function getId(): ?int
