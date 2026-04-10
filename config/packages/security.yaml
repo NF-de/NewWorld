@@ -51,6 +51,7 @@ security:
     access_control:
         # Routes publiques
         - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
+        - { path: ^/api/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/produits, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/categories, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/entreprises, roles: PUBLIC_ACCESS, methods: [GET] }
