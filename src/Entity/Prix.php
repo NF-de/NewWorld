@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\PrixRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PrixRepository::class)]
 #[ApiResource]
@@ -21,17 +22,22 @@ class Prix
     #[ORM\JoinColumn(nullable: false)]
     private ?Produit $produit = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    #[Assert\NotBlank]
+    #[Assert\Positive]
     #[Groups(['produit:read'])]
-    private ?float $valeurHT = null;
+    private ?string $valeurHT = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
+    #[Assert\Positive]
     #[Groups(['produit:read'])]
-    private ?float $valeurTTC = null;
+    private ?string $valeurTTC = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
+    #[Assert\NotBlank]
+    #[Assert\Range(min: 0, max: 100)]
     #[Groups(['produit:read'])]
-    private ?float $valeur_tva = null;
+    private ?string $valeur_tva = null;
 
     public function getId(): ?int
     {

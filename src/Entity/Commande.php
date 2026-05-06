@@ -52,7 +52,7 @@ class Commande
     /**
      * @var Collection<int, LigneCommande>
      */
-    #[ORM\OneToMany(targetEntity: LigneCommande::class, mappedBy: 'commande_id')]
+    #[ORM\OneToMany(targetEntity: LigneCommande::class, mappedBy: 'commande')] 
     #[Groups(['commande:read'])]
     private Collection $ligneCommandes;
 

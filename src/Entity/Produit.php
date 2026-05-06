@@ -11,6 +11,7 @@ use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 #[ApiResource(
@@ -55,14 +56,20 @@ class Produit
     private Collection $categorie;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 255)]
     #[Groups(['produit:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 10, max: 255)]
     #[Groups(['produit:read'])]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\PositiveOrZero]
     #[Groups(['produit:read'])]
     private ?int $quantite = null;
 
@@ -200,7 +207,7 @@ class Produit
         $this->description = $description;
 
         return $this;
-    }   
+    }
 
     public function getQuantite(): ?int
     {
