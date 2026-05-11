@@ -157,7 +157,9 @@ class Produit
     public function setEntreprise(?Entreprise $entreprise): static
     {
         $this->entreprise = $entreprise;
-
+        if ($entreprise !== null) {
+            $entreprise->addProduit($this);
+        }
         return $this;
     }
 
@@ -173,6 +175,7 @@ class Produit
     {
         if (!$this->categorie->contains($categorie)) {
             $this->categorie->add($categorie);
+            $categorie->addProduit($this);
         }
 
         return $this;

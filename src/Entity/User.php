@@ -266,8 +266,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
-        $this->created_at = new \DateTime();
-        $this->updated_at = new \DateTime();
+        $now = new \DateTime(); // On crée l'heure une seule fois
+        $this->created_at = $now;
+        $this->updated_at = $now;
     }
 
     #[ORM\PreUpdate]

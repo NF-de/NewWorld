@@ -56,6 +56,7 @@ security:
         - { path: ^/api/produits, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/categories, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/entreprises, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/prixes, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api, roles: ROLE_CLIENT }
         - { path: ^/admin, roles: ROLE_SECRETAIRE }
 

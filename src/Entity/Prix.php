@@ -53,6 +53,9 @@ class Prix
     {
         $this->produit = $produit;
 
+        if ($produit !== null && !$produit->getPrix()->contains($this)) {
+            $produit->addPrix($this);
+        }
         return $this;
     }
 
