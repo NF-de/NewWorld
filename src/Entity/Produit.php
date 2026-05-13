@@ -80,6 +80,9 @@ class Produit
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['produit:read'])]
+    private ?string $imageName = null;
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
@@ -245,6 +248,16 @@ class Produit
     {
         $this->createdAt = $createdAt;
 
+        return $this;
+    }
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $imageName): self
+    {
+        $this->imageName = $imageName;
         return $this;
     }
 }
