@@ -23,7 +23,7 @@ class Commande
     private ?int $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     #[Groups(['commande:read'])]
     private ?Adresse $adresse = null;
 
@@ -52,7 +52,7 @@ class Commande
     /**
      * @var Collection<int, LigneCommande>
      */
-    #[ORM\OneToMany(targetEntity: LigneCommande::class, mappedBy: 'commande')] 
+    #[ORM\OneToMany(targetEntity: LigneCommande::class, mappedBy: 'commande')]
     #[Groups(['commande:read'])]
     private Collection $ligneCommandes;
 

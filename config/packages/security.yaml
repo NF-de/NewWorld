@@ -17,25 +17,29 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        # 1. Le firewall de connexion pour Flutter
         login:
             pattern: ^/api/login_check
             stateless: true
             provider: app_user_provider
             json_login:
                 check_path: /api/login_check
-                username_path: username
+                username_path: email
+                password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             login_throttling:
                 max_attempts: 5
                 interval: '15 minutes'
 
+        # 2. Le firewall qui protège le reste de l'API
         api:
             pattern: ^/api
             stateless: true
             provider: app_user_provider
             jwt: ~
 
+        # 3. Le firewall pour ton site web classique
         main:
             lazy: true
             provider: app_user_provider
@@ -50,6 +54,7 @@ security:
                 max_attempts: 5
                 interval: '15 minutes'
 
+    # Tes règles d'accès sont parfaites et bien ordonnées !
     access_control:
         - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
         - { path: ^/api/register, roles: PUBLIC_ACCESS }
