@@ -3,3 +3,29 @@ id,entreprise_id,categorie_id,name,description,quantite,unit_type,created_at,ima
 2,1,1,Carottes Bio,Carottes du jardin de l'ouest,200,KG,2025-11-28 10:00:00,Carrottejpg
 3,2,2,Yaourt Nature,Pack de 12 yaourts onctueux,150,UNIT,2025-11-28 10:00:00,Yaourt.jpg
 4,3,4,Farine T45,Farine de blé pour pâtisserie,100,KG,2025-11-28 10:00:00,Farine.jpg
+5,2,2,Lait Demi-Écrémé,Bouteille de lait 1L,300,UNIT,2025-11-28 10:00:00,Lait.jpg
+6,2,2,Beurre Doux,Beurre traditionnel 250g,180,UNIT,2025-11-28 10:00:00,Beurre.jpg
+7,2,2,Fromage Emmental,Emmental râpé 500g,120,UNIT,2025-11-28 10:00:00,Emmental.jpg
+8,1,1,Bananes Cavendish,Bananes mûres et sucrées,400,KG,2025-11-28 10:00:00,Banane.jpg
+9,1,1,Oranges Valencia,Oranges riches en vitamine C,350,KG,2025-11-28 10:00:00,Orange.jpg
+10,1,1,Tomates Rondes,Tomates fraîches de saison,250,KG,2025-11-28 10:00:00,Tomate.jpg
+11,1,1,Pommes de Terre,Pommes de terre polyvalentes,600,KG,2025-11-28 10:00:00,PommeDeTerre.jpg
+12,1,1,Oignons Jaunes,Oignons pour cuisine quotidienne,300,KG,2025-11-28 10:00:00,Oignon.jpg
+13,3,4,Sucre Blanc,Sucre cristallisé 1kg,220,KG,2025-11-28 10:00:00,Sucre.jpg
+14,3,4,Riz Basmati,Riz parfumé qualité supérieure,280,KG,2025-11-28 10:00:00,Riz.jpg
+15,3,4,Pâtes Penne,Pâtes italiennes 500g,350,UNIT,2025-11-28 10:00:00,Penne.jpg
+16,3,4,Huile d'Olive,Huile d'olive extra vierge 1L,140,UNIT,2025-11-28 10:00:00,HuileOlive.jpg
+17,3,4,Sel Fin,Sel fin alimentaire 1kg,500,UNIT,2025-11-28 10:00:00,Sel.jpg
+18,2,2,Crème Fraîche,Crème fraîche épaisse 20cl,160,UNIT,2025-11-28 10:00:00,Creme.jpg
+19,2,2,Oeufs Fermiers,Boîte de 12 œufs fermiers,240,UNIT,2025-11-28 10:00:00,Oeufs.jpg
+20,2,2,Lait Chocolaté,Boisson lactée chocolatée,130,UNIT,2025-11-28 10:00:00,LaitChoco.jpg
+21,1,1,Fraises,Fraises fraîches locales,180,KG,2025-11-28 10:00:00,Fraise.jpg
+22,1,1,Raisin Blanc,Raisin blanc sans pépins,170,KG,2025-11-28 10:00:00,Raisin.jpg
+23,1,1,Poivrons Rouges,Poivrons rouges croquants,210,KG,2025-11-28 10:00:00,Poivron.jpg
+24,1,1,Courgettes,Courgettes fraîches du marché,190,KG,2025-11-28 10:00:00,Courgette.jpg
+25,3,4,Lentilles Vertes,Lentilles riches en protéines,150,KG,2025-11-28 10:00:00,Lentille.jpg
+26,3,4,Haricots Blancs,Haricots secs sélectionnés,130,KG,2025-11-28 10:00:00,Haricot.jpg
+27,3,4,Café Moulu,Café arabica moulu 250g,110,UNIT,2025-11-28 10:00:00,Cafe.jpg
+28,3,4,Thé Vert,Thé vert en sachets,90,UNIT,2025-11-28 10:00:00,TheVert.jpg
+29,2,2,Fromage Blanc,Fromage blanc nature 500g,125,UNIT,2025-11-28 10:00:00,FromageBlanc.jpg
+30,2,2,Mozzarella,Mozzarella fraîche 125g,145,UNIT,2025-11-28 10:00:00,Mozzarella.jpg
