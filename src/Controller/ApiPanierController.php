@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Adresse;
 use App\Entity\Commande;
 use App\Entity\LigneCommande;
 use App\Repository\CommandeRepository;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class ApiPanierController extends AbstractController
 {
     #[Route('/api/panier/add', name: 'api_panier_add', methods: ['POST'])]
-    public function ajouterAuPanier(
+    public function ajouterAuPanierOuValider(
         Request $request,
         ProduitRepository $produitRepository,
         CommandeRepository $commandeRepository,
@@ -30,17 +31,6 @@ class ApiPanierController extends AbstractController
 
         // 2. Récupérer les données de Flutter
         $data = json_decode($request->getContent(), true);
-        $produitId = $data['produit_id'] ?? null;
-        $quantite = $data['quantite'] ?? 1; // Le nombre d'articles ajoutés
-
-        if (!$produitId) {
-            return new JsonResponse(['error' => 'Produit manquant'], 400);
-        }
-
-        $produit = $produitRepository->find($produitId);
-        if (!$produit) {
-            return new JsonResponse(['error' => 'Produit introuvable'], 404);
-        }
 
         // 3. Trouver le panier en cours (status = 'panier')
         $commandePanier = $commandeRepository->findOneBy([
@@ -48,7 +38,7 @@ class ApiPanierController extends AbstractController
             'status' => 'panier'
         ]);
 
-        // Si aucun panier n'existe, on le crée
+        // Si aucun panier n'existe, on le crée automatiquement
         if (!$commandePanier) {
             $commandePanier = new Commande();
             $commandePanier->setUser($user);
@@ -57,7 +47,55 @@ class ApiPanierController extends AbstractController
             $em->persist($commandePanier);
         }
 
-        // 4. Parcourir les lignes existantes pour voir si le produit y est déjà
+        // =====================================================================
+        // ÉTAPE CIBLE : SI FLUTTER ENVOIE UNE ADRESSE, ON ENREGISTRE ET VALIDE
+        // =====================================================================
+        if (isset($data['rue']) || isset($data['ville']) || isset($data['codePostal'])) {
+            if (!isset($data['rue'], $data['ville'], $data['codePostal'], $data['pays'])) {
+                return new JsonResponse(['error' => 'Données d\'adresse incomplètes'], 400);
+            }
+
+            if ($commandePanier->getLigneCommandes()->isEmpty()) {
+                return new JsonResponse(['error' => 'Impossible de valider un panier vide'], 400);
+            }
+
+            // Création et hydratation de l'entité Adresse
+            $adresse = new Adresse();
+            $adresse->setRue($data['rue']);
+            $adresse->setVille($data['ville']);
+            $adresse->setCodePostal($data['codePostal']);
+            $adresse->setPays($data['pays']);
+            $em->persist($adresse);
+
+            // Liaison à la commande et changement de statut pour geler le panier
+            $commandePanier->setAdresse($adresse);
+            $commandePanier->setStatus('valide'); 
+            $commandePanier->setDateValidation(new \DateTime());
+
+            $em->flush();
+
+            return new JsonResponse([
+                'status' => 'Commande validée avec succès !',
+                'commande_id' => $commandePanier->getId()
+            ], 200);
+        }
+
+        // =====================================================================
+        // ÉTAPE DE BASE : AJOUT CLASSIQUE DE PRODUIT AU PANIER
+        // =====================================================================
+        $produitId = $data['produit_id'] ?? null;
+        $quantite = $data['quantite'] ?? 1; // Le nombre d'articles ajoutés
+
+        if (!$produitId) {
+            return new JsonResponse(['error' => 'Données incomplètes (produit_id manquant)'], 400);
+        }
+
+        $produit = $produitRepository->find($produitId);
+        if (!$produit) {
+            return new JsonResponse(['error' => 'Produit introuvable'], 404);
+        }
+
+        // Parcourir les lignes existantes pour voir si le produit y est déjà
         $ligneExistante = null;
         foreach ($commandePanier->getLigneCommandes() as $ligne) {
             if ($ligne->getProduit()->getId() === $produit->getId()) {
@@ -67,18 +105,17 @@ class ApiPanierController extends AbstractController
         }
 
         if ($ligneExistante) {
-            // Le produit est déjà là, on incrémente avec ton champ $count
+            // Le produit est déjà là, on incrémente son compteur
             $ligneExistante->setCount($ligneExistante->getCount() + $quantite);
         } else {
-            // Nouveau produit : on crée une LigneCommande avec ton champ $count
+            // Nouveau produit : on crée une LigneCommande dédiée
             $ligneCommande = new LigneCommande();
             $ligneCommande->setCommande($commandePanier);
             $ligneCommande->setProduit($produit);
-            $ligneCommande->setCount($quantite); // <-- CORRIGÉ ICI
+            $ligneCommande->setCount($quantite);
             $em->persist($ligneCommande);
         }
 
-        // 5. Enregistrement en BDD
         $em->flush();
 
         return new JsonResponse(['status' => 'Produit ajouté au panier avec succès !'], 200);
