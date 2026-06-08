@@ -59,6 +59,25 @@ class ApiPanierController extends AbstractController
                 return new JsonResponse(['error' => 'Impossible de valider un panier vide'], 400);
             }
 
+            // === GESTION DES STOCKS : VÉRIFICATION FINALE AVANT VALIDATION ===
+            foreach ($commandePanier->getLigneCommandes() as $ligne) {
+                $produit = $ligne->getProduit();
+                // CORRECTION : Utilisation de getQuantite() et getName()
+                if ($produit->getQuantite() < $ligne->getCount()) {
+                    return new JsonResponse([
+                        'error' => sprintf('Le produit "%s" n\'a plus assez de stock (%d restants). Veuillez modifier votre panier.', $produit->getName(), $produit->getQuantite())
+                    ], 400);
+                }
+            }
+
+            // === GESTION DES STOCKS : SOUSTRACTION DES STOCKS EN BDD ===
+            foreach ($commandePanier->getLigneCommandes() as $ligne) {
+                $produit = $ligne->getProduit();
+                // CORRECTION : Soustraction basée sur ton champ $quantite
+                $nouvelleQuantiteStock = $produit->getQuantite() - $ligne->getCount();
+                $produit->setQuantite($nouvelleQuantiteStock);
+            }
+
             // Création et hydratation de l'entité Adresse
             $adresse = new Adresse();
             $adresse->setRue($data['rue']);
@@ -75,7 +94,7 @@ class ApiPanierController extends AbstractController
             $em->flush();
 
             return new JsonResponse([
-                'status' => 'Commande validée avec succès !',
+                'status' => 'Commande validée et stocks mis à jour avec succès !',
                 'commande_id' => $commandePanier->getId()
             ], 200);
         }
@@ -102,6 +121,22 @@ class ApiPanierController extends AbstractController
                 $ligneExistante = $ligne;
                 break;
             }
+        }
+
+        // === GESTION DES STOCKS : VÉRIFICATION À L'AJOUT AU PANIER ===
+        $quantiteTotaleSouhaitee = $quantite;
+        if ($ligneExistante) {
+            $quantiteTotaleSouhaitee += $ligneExistante->getCount();
+        }
+
+        // CORRECTION : Utilisation de getQuantite()
+        if ($produit->getQuantite() < $quantiteTotaleSouhaitee) {
+            return new JsonResponse([
+                'error' => sprintf('Stock insuffisant. Il reste %d unité(s) disponible(s). Vous en avez déjà %d dans votre panier.', 
+                    $produit->getQuantite(),
+                    $ligneExistante ? $ligneExistante->getCount() : 0
+                )
+            ], 400);
         }
 
         if ($ligneExistante) {
