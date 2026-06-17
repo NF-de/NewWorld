@@ -60,6 +60,8 @@ final class DashboardUtilisateurController extends AbstractController
             $entreprise->setVille($request->request->get('ville'));
             $entreprise->setCodePostal($request->request->get('codePostal'));
             $entreprise->setSiret($request->request->get('siret'));
+            $entreprise->setMiseEnAvant($request->request->get('miseEnAvant'));
+            $entreprise->setDescriptif($request->request->get('descriptif'));
 
             $em->flush();
             $this->addFlash('success', 'Les informations de l’entreprise ont été mises à jour !');

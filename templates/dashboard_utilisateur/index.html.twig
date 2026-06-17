@@ -58,11 +58,11 @@
 							{% if entreprise.status == "non_valide" %}
 								{% if entreprise.causeRefus == "demande"%}
 									<p class="badge danger">Statut : Non validé. Les informations relatives à votre entreprise comportent
-																																																																																																																																																																																																																																																																														des erreurs ou des incohérences qui ne permettent pas la validation de votre dossier.</p>
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																						des erreurs ou des incohérences qui ne permettent pas la validation de votre dossier.</p>
 								{% endif %}
 								{% if entreprise.causeRefus == "qualite"%}
 									<p class="badge danger">Statut : Non validé. Votre dossier présente des insuffisances concernant les
-																																																																																																																																																																																																																																																																														protocoles de contrôle qualité requis.</p>
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																						protocoles de contrôle qualité requis.</p>
 								{% endif %}
 							{% endif %}
 							{% if entreprise.status == "pre_avis_entreprise" %}
@@ -135,6 +135,19 @@
 										<label>Numéro SIRET :</label>
 										<input type="text" name="siret" value="{{ entreprise.siret }}" maxlength="14" pattern="\d{14}" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
 									</div>
+									<div style="display: flex; flex-direction: row;">
+										<label>Mettre en avant l'entreprise :
+										</label>
+										<input type="checkbox" switch name="miseEnAvant" value="true" {% if entreprise.miseEnAvant == "true" %} checked {% endif %}>
+									</div>
+									{% if entreprise.miseEnAvant == "true" %}
+										<div>
+											<label>Message de descriptif promotionelle :
+											</label>
+											<input type="text" name="descriptif" value="{{ entreprise.descriptif }}">
+										</div>
+									{% endif %}
+
 									<button type="submit" class="btn btn-success mt-2">Enregistrer</button>
 								</form>
 							{% endif %}
