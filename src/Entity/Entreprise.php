@@ -78,6 +78,12 @@ class Entreprise
     #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'entreprise', orphanRemoval: true)]
     private Collection $produits;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $miseEnAvant = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $descriptif = null;
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
@@ -307,6 +313,30 @@ class Entreprise
                 $produit->setEntreprise(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isMiseEnAvant(): ?bool
+    {
+        return $this->miseEnAvant;
+    }
+
+    public function setMiseEnAvant(?bool $miseEnAvant): static
+    {
+        $this->miseEnAvant = $miseEnAvant;
+
+        return $this;
+    }
+
+    public function getDescriptif(): ?string
+    {
+        return $this->descriptif;
+    }
+
+    public function setDescriptif(?string $descriptif): static
+    {
+        $this->descriptif = $descriptif;
 
         return $this;
     }
