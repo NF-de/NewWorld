@@ -25,7 +25,7 @@ class Entreprise
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    
+
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255)]
@@ -79,9 +79,11 @@ class Entreprise
     private Collection $produits;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['produit:read'])]
     private ?bool $miseEnAvant = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['produit:read'])]
     private ?string $descriptif = null;
 
     public function __construct()
